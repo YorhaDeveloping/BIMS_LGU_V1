@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Maintenance;
@@ -13,7 +12,6 @@ use Gate;
 use DB;
 
 class CTRLmntnns extends Controller
-
 {
     /**
      * Display a listing of the resource.
@@ -39,36 +37,36 @@ class CTRLmntnns extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'buildings_name' => ['required', 'string', 'max:255'],
-            'maintenance_type' => ['required', 'numeric'],
-            'issue_description' => ['required', 'string', 'max:255'],
-            'priority' => ['required', 'string', 'max:255'],
-            'aattachments' => ['required', 'string', 'max:255'],
-            'submitter_name' => ['required', 'numeric'],
-            'submitter_email' => ['required', 'string', 'max:255'],
-            'submitter_phone' => ['required', 'numeric'],
-            'submittion_date' => ['required', 'date']
-        ]);
+        // Validation as above
 
-        $maintenances = new Maintenance([
+        $maintenanceData = [
             'buildings_name' => $request->buildings_name,
             'maintenance_type' => $request->maintenance_type,
             'issue_description' => $request->issue_description,
             'priority' => $request->priority,
-            'attachments' => $request->attachments,
             'submitter_name' => $request->submitter_name,
             'submitter_email' => $request->submitter_email,
             'submitter_phone' => $request->submitter_phone,
-            'submittion_date' => $request->submittion_date
-        ]);
+            'submittion_date' => $request->submittion_date,
+            'status' => $request->status,
+        ];
 
-        // Save the building instance to the database
+        // Handle file uploads
+        if ($request->hasFile('attachments')) {
+            $attachmentPaths = [];
+            foreach ($request->file('attachments') as $file) {
+                $path = $file->store('attachments', 'public');
+                $attachmentPaths[] = $path;
+            }
+            $maintenanceData['attachments'] = json_encode($attachmentPaths); // Store as JSON
+        }
+
+        $maintenances = new Maintenance($maintenanceData);
         $maintenances->save();
 
-        // Redirect back to the index page with a success message
-        return redirect()->route('admin.maintenance.store');
+        return redirect()->route('admin.maintenance.index')->with('success', 'Maintenance request submitted successfully.');
     }
+
 
     /**
      * Display the specified resource.
@@ -85,7 +83,9 @@ class CTRLmntnns extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $maintenance = Maintenance::findOrFail($id);
+        $buildings = building::all();
+        return view('admin.maintenance.edit', compact('maintenance', 'buildings'));
     }
 
     /**
@@ -93,7 +93,38 @@ class CTRLmntnns extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validate incoming request data
+        $request->validate([
+            'buildings_name' => ['required', 'string', 'max:255'],
+            'maintenance_type' => ['required', 'numeric'],
+            'issue_description' => ['required', 'string', 'max:255'],
+            'priority' => ['required', 'string', 'max:255'],
+            'attachments' => ['nullable', 'array'], // Make attachments optional
+            'submitter_name' => ['required', 'string', 'max:255'],
+            'submitter_email' => ['required', 'string', 'email', 'max:255'],
+            'submitter_phone' => ['required', 'numeric'],
+            'submittion_date' => ['required', 'date'],
+        ]);
+
+        // Find the existing maintenance record
+        $maintenance = Maintenance::findOrFail($id);
+
+        // Update the record with new data
+        $maintenance->buildings_name = $request->buildings_name;
+        $maintenance->maintenance_type = $request->maintenance_type;
+        $maintenance->issue_description = $request->issue_description;
+        $maintenance->priority = $request->priority;
+        $maintenance->attachments = $request->attachments; // Handle attachments as needed
+        $maintenance->submitter_name = $request->submitter_name;
+        $maintenance->submitter_email = $request->submitter_email;
+        $maintenance->submitter_phone = $request->submitter_phone;
+        $maintenance->submittion_date = $request->submittion_date;
+
+        // Save changes to the database
+        $maintenance->save();
+
+        // Redirect back to the index page with a success message
+        return redirect()->route('admin.maintenance.index')->with('success', 'Maintenance updated successfully!');
     }
 
     /**

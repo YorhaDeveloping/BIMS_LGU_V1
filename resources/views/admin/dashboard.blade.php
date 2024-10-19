@@ -226,8 +226,7 @@
                                 <!-- Column for Calendar -->
                                 <div class="col-sm-6">
                                     <div class="calendar" style="background-color: #f9f9f9; padding: 20px;">
-                                        <div class="header"
-                                            style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div class="header" style="display: flex; justify-content: space-between; align-items: center;">
                                             <button id="prev"
                                                 style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 10px;">Previous</button>
 
@@ -236,35 +235,19 @@
                                             <button id="next"
                                                 style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 10px;">Next</button>
                                         </div>
-                                        <div class="days"
-                                            style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-                                            <div class="day-name"
-                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
-                                                Sun</div>
-                                            <div class="day-name"
-                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
-                                                Mon</div>
-                                            <div class="day-name"
-                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
-                                                Tue</div>
-                                            <div class="day-name"
-                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
-                                                Wed</div>
-                                            <div class="day-name"
-                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
-                                                Thu</div>
-                                            <div class="day-name"
-                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
-                                                Fri</div>
-                                            <div class="day-name"
-                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
-                                                Sat</div>
+                                        <div class="days" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Sun</div>
+                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Mon</div>
+                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Tue</div>
+                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Wed</div>
+                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Thu</div>
+                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Fri</div>
+                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Sat</div>
                                             <div id="days" style="display: flex; flex-wrap: wrap;"></div>
                                         </div>
                                     </div>
 
-                                    <div id="eventDetails"
-                                        style="display: none; background-color: #fff; border: 1px solid #ddd; padding: 10px; margin-top: 10px;">
+                                    <div id="eventDetails" style="display: none; background-color: #fff; border: 1px solid #ddd; padding: 10px; margin-top: 10px;">
                                         <h3>Event Details</h3>
                                         <div id="eventContent"></div>
                                     </div>
@@ -276,38 +259,21 @@
                                     <script>
                                         let today = new Date();
                                         let day = today.getDate();
-                                        let month = today.getMonth() + 1;
+                                        let month = today.getMonth() + 1; // 1-12
                                         let year = today.getFullYear();
                                         let daysInMonth = new Date(year, month, 0).getDate();
-                                        let monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-                                            "November", "December"
-                                        ][month - 1];
 
-                                        document.getElementById("monthYear").innerHTML = `${monthName} ${year}`;
-                                        document.getElementById("todayDate").innerHTML = `${monthName} ${day}, ${year}`;
-
-                                        document.getElementById("prev").addEventListener("click", function() {
-                                            if (month > 1) {
-                                                month--;
-                                            } else {
-                                                month = 12;
-                                                year--;
-                                            }
-                                            renderCalendar();
-                                        });
-
-                                        document.getElementById("next").addEventListener("click", function() {
-                                            if (month < 12) {
-                                                month++;
-                                            } else {
-                                                month = 1;
-                                                year++;
-                                            }
-                                            renderCalendar();
-                                        });
-
-                                        function renderCalendar() {
+                                        // Update the month and year display
+                                        function updateMonthYear() {
+                                            let monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                                                "November", "December"][month - 1];
                                             document.getElementById("monthYear").innerHTML = `${monthName} ${year}`;
+                                        }
+
+                                        // Render the calendar days
+                                        function renderCalendar() {
+                                            // Update daysInMonth whenever month or year changes
+                                            daysInMonth = new Date(year, month, 0).getDate();
                                             let days = document.getElementById("days");
                                             while (days.firstChild) {
                                                 days.removeChild(days.firstChild);
@@ -323,16 +289,14 @@
                                                 dayElement.style.margin = "5px 0";
                                                 dayElement.innerHTML = i;
 
-                                                if (i === day) {
+                                                if (i === day && month === today.getMonth() + 1 && year === today.getFullYear()) {
                                                     dayElement.style.backgroundColor = "#4CAF50";
                                                     dayElement.style.color = "white";
                                                 }
 
                                                 let date = year + '-' + String(month).padStart(2, '0') + '-' + String(i).padStart(2, '0');
-                                                let maintenanceStatuses = @json($maintenanceStatuses);
-                                                let event = maintenanceStatuses.find(event => event.submittion_date === date);
+                                                let events = @json($maintenanceStatuses).filter(event => event.submittion_date === date);
 
-                                                let events = maintenanceStatuses.filter(event => event.submittion_date === date);
                                                 if (events.length > 0) {
                                                     dayElement.style.backgroundColor = "#ffc107";
                                                     dayElement.style.color = "white";
@@ -340,10 +304,10 @@
 
                                                     dayElement.addEventListener("click", function() {
                                                         const eventContent = events.map(event => `
-                                    <p><strong>Event:</strong> ${event.buildings_name || "N/A"}</p>
-                                    <p><strong>Maintenance Type:</strong> ${event.maintenance_type || "N/A"}</p>
-                                    <p><strong>Status:</strong> ${event.status || "N/A"}</p>
-                                `).join("");
+                                                            <p><strong>Event:</strong> ${event.buildings_name || "N/A"}</p>
+                                                            <p><strong>Maintenance Type:</strong> ${event.maintenance_type || "N/A"}</p>
+                                                            <p><strong>Status:</strong> ${event.status || "N/A"}</p>
+                                                        `).join("");
                                                         document.getElementById("eventContent").innerHTML = eventContent;
                                                         const eventDetailsDiv = document.getElementById("eventDetails");
                                                         eventDetailsDiv.style.display = eventDetailsDiv.style.display === "none" ? "block" : "none";
@@ -354,9 +318,34 @@
                                             }
                                         }
 
-                                        renderCalendar();
+                                        // Event listeners for navigation buttons
+                                        document.getElementById("prev").addEventListener("click", function() {
+                                            if (month > 1) {
+                                                month--;
+                                            } else {
+                                                month = 12;
+                                                year--;
+                                            }
+                                            updateMonthYear();
+                                            renderCalendar();
+                                        });
+
+                                        document.getElementById("next").addEventListener("click", function() {
+                                            if (month < 12) {
+                                                month++;
+                                            } else {
+                                                month = 1;
+                                                year++;
+                                            }
+                                            updateMonthYear();
+                                            renderCalendar();
+                                        });
+
+                                        updateMonthYear(); // Initial month/year display
+                                        renderCalendar(); // Initial calendar rendering
                                     </script>
                                 </div>
+
                             </div>
                         </div>
                     </div>
