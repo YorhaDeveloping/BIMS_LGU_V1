@@ -7,17 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Maintenance extends Model
 {
-    protected $fillable = [
-        'buildings_name',
-         'maintenance_type',
-         'issue_description',
-         'priority',
-        'attachments',
-         'submitter_name',
-        'submitter_email',
-        'submitter_phone',
-         'submittion_date',
-        'status'
-    ];
+    protected $fillable = ['buildings_name', 'maintenance_type', 'issue_description', 'priority', 'attachments', 'submitter_name', 'submitter_email', 'submitter_phone', 'submittion_date', 'status'];
 }
-
