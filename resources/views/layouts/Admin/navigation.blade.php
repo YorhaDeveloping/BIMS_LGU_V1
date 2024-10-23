@@ -21,11 +21,11 @@
         {{ __('Map') }}
     </x-nav-link>
 
-    <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')" class="font-sans font-bold" style="text-decoration: none;">
+    {{-- <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')" class="font-sans font-bold" style="text-decoration: none;">
         {{ __('Users') }}
-    </x-nav-link>
+    </x-nav-link> --}}
 
-    <x-nav-link :href="route('admin.building.index')" :active="request()->routeIs('admin.building.create')" class="font-sans font-bold" style="text-decoration: none;">
+    <x-nav-link :href="route('admin.building.index')" :active="request()->routeIs('admin.building.index')" class="font-sans font-bold" style="text-decoration: none;">
         {{ __('Building') }}
     </x-nav-link>
 

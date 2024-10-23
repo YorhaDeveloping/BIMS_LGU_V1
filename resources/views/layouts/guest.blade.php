@@ -16,8 +16,8 @@
     </head>
     <body class="font-sans  antialiased">
         <div class="min-h-screen bg-center flex justify-center items-center"
-        style=" 
-        background-image: url('{{asset('logo/login.jpg') }}');
+        style="
+        background-image: url('{{asset('backgrounds/building_background_login.jpg') }}');
         background-repeat: no-repeat;
         background-size: cover;">
             {{--

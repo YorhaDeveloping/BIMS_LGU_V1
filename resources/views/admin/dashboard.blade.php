@@ -19,6 +19,7 @@
                         <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
                         <link rel="stylesheet"
                             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+                        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
                         @csrf
 
                         <style>
@@ -72,64 +73,161 @@
                                 }
                             }
                         </style>
+                        @php
+                            $totalBuildings = DB::table('buildings')->count();
+                            $maintenances = DB::table('maintenances')->count();
+                        @endphp
+                            <div class="row">
+                                <div class="col-xl-3 col-md-6 mb-4">
+                                    <div class="card text-center" style="transition: all 0.3s ease-in-out;">
+                                        <div class="card-header bg-success text-white">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <i class="fas fa-building fa-4x text-black-300 wobble-on-hover"></i>
+                                                    <!-- Building icon -->
+
+                                                </div>
+                                                <div class="col">
+                                                    <h3 class="display-4">{{ $totalBuildings }}</h3>
+
+                                                    <h6 class="text-uppercase mb-1">Buildings</h6>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <style>
+                                        .card:hover {
+                                            transform: scale(1.1);
+                                        }
+                                    </style>
+
+                                </div>
+
+                                <div class="col-xl-3 col-md-6 mb-4">
+                                    <div class="card text-center" style="transition: all 0.3s ease-in-out;">
+                                        <div class="card-header bg-danger text-white">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <i class="fas fa-tools fa-4x text-black-300 wobble-on-hover"></i>
+                                                    <!-- Maintenance icon -->
+
+                                                </div>
+                                                <div class="col">
+                                                    <h3 class="display-4">{{ $maintenances }}</h3>
+
+                                                    <h6 class="text-uppercase mb-1">Maintenance</h6>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <style>
+                                        .card:hover {
+                                            transform: scale(1.1);
+                                        }
+                                    </style>
+
+                                </div>
+                            </div>
 
                         <div class="container-fluid">
                             <div class="row">
                                 <!-- Column for Chart -->
-                                <div class="col-sm-6">
-                                    <div class="programming-stats">
-                                        <div class="chart-container">
-                                            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <!-- Column for Maintenance Status Pie Chart -->
+
+                                        <div class="col-sm-6">
+                                            <div class="programming-stats">
+                                                <div class="chart-container">
+                                                    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                                                </div>
+                                            </div>
+
+                                            @php
+                                                // Count occurrences of each status
+                                                $maintenanceStatuses = \App\Models\Admin\Maintenance::pluck('status');
+                                                $statusCounts = [
+                                                    'Operational' => $maintenanceStatuses
+                                                        ->filter(fn($status) => $status === 'Operational')
+                                                        ->count(),
+                                                    'Under Renovation' => $maintenanceStatuses
+                                                        ->filter(fn($status) => $status === 'Under Renovation')
+                                                        ->count(),
+                                                    'Inactive' => $maintenanceStatuses
+                                                        ->filter(fn($status) => $status === 'Inactive')
+                                                        ->count(),
+                                                ];
+
+                                                // Format data points for CanvasJS
+                                                $statusDataPoints = collect($statusCounts)
+                                                    ->map(function ($count, $status) {
+                                                        return ['label' => $status, 'y' => $count];
+                                                    })
+                                                    ->values()
+                                                    ->all();
+                                            @endphp
+
+                                            <script>
+                                                window.onload = function() {
+                                                    // Render the maintenance status pie chart
+                                                    const chart = new CanvasJS.Chart("chartContainer", {
+                                                        animationEnabled: true,
+                                                        theme: "light2",
+                                                        title: {
+                                                            text: "Building Maintenance Status"
+                                                        },
+                                                        data: [{
+                                                            type: "pie",
+                                                            showInLegend: true,
+                                                            legendText: "{label}",
+                                                            toolTipContent: "<b>{label}</b>: {y} (#percent%)",
+                                                            indexLabel: "{label} - {y}",
+                                                            dataPoints: @json($statusDataPoints)
+                                                        }]
+                                                    });
+                                                    chart.render();
+
+                                                    // Fetch the count of total buildings from PHP
+                                                    const totalBuildingsCount = @json(
+                                                        \App\Models\Admin\Building::all()->pluck('created_at')->map(function ($date) {
+                                                                return \Carbon\Carbon::parse($date)->format('Y');
+                                                            })->countBy()->all());
+                                                    console.log(totalBuildingsCount); // Check if totalBuildingsCount is valid
+
+                                                    // Render the total buildings added per year line graph
+                                                    const totalBuildingsChart = new CanvasJS.Chart("totalBuildingsLineGraph", {
+                                                        animationEnabled: true,
+                                                        theme: "light2",
+                                                        title: {
+                                                            text: "Total Buildings Yearly"
+                                                        },
+                                                        data: [{
+                                                            type: "line",
+                                                            dataPoints: Object.keys(totalBuildingsCount).map(year => ({
+                                                                label: year,
+                                                                y: totalBuildingsCount[year]
+                                                            }))
+                                                        }]
+                                                    });
+                                                    totalBuildingsChart.render();
+                                                }
+                                            </script>
+                                        </div>
+
+                                        <!-- Column for Total Buildings Chart -->
+                                        <div class="col-sm-6">
+                                            <div class="chart-container">
+                                                <div id="totalBuildingsLineGraph" style="height: 300px; width: 100%;"></div>
+                                            </div>
                                         </div>
                                     </div>
-
-                                    @php
-                                        // Count occurrences of each status
-                                        $maintenanceStatuses = \App\Models\Admin\Maintenance::pluck('status');
-                                        $statusCounts = [
-                                            'Operational' => $maintenanceStatuses
-                                                ->filter(fn($status) => $status === 'Operational')
-                                                ->count(),
-                                            'Under Renovation' => $maintenanceStatuses
-                                                ->filter(fn($status) => $status === 'Under Renovation')
-                                                ->count(),
-                                            'Inactive' => $maintenanceStatuses
-                                                ->filter(fn($status) => $status === 'Inactive')
-                                                ->count(),
-                                        ];
-
-                                        // Format data points for CanvasJS
-                                        $statusDataPoints = collect($statusCounts)
-                                            ->map(function ($count, $status) {
-                                                return ['label' => $status, 'y' => $count];
-                                            })
-                                            ->values()
-                                            ->all();
-                                    @endphp
-
-                                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-                                    <script>
-                                        window.onload = function() {
-                                            const chart = new CanvasJS.Chart("chartContainer", {
-                                                animationEnabled: true,
-                                                theme: "light2",
-                                                title: {
-                                                    text: "Building Maintenance Status"
-                                                },
-                                                data: [{
-                                                    type: "pie",
-                                                    showInLegend: true,
-                                                    legendText: "{label}",
-                                                    toolTipContent: "<b>{label}</b>: {y} (#percent%)",
-                                                    indexLabel: "{label} - {y}",
-                                                    dataPoints: @json($statusDataPoints)
-                                                }]
-                                            });
-
-                                            chart.render();
-                                        }
-                                    </script>
                                 </div>
+
+
 
                                 <!-- Column for Map -->
                                 <div class="col-sm-6">
@@ -226,7 +324,8 @@
                                 <!-- Column for Calendar -->
                                 <div class="col-sm-6">
                                     <div class="calendar" style="background-color: #f9f9f9; padding: 20px;">
-                                        <div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div class="header"
+                                            style="display: flex; justify-content: space-between; align-items: center;">
                                             <button id="prev"
                                                 style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 10px;">Previous</button>
 
@@ -235,19 +334,35 @@
                                             <button id="next"
                                                 style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 10px;">Next</button>
                                         </div>
-                                        <div class="days" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Sun</div>
-                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Mon</div>
-                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Tue</div>
-                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Wed</div>
-                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Thu</div>
-                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Fri</div>
-                                            <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">Sat</div>
+                                        <div class="days"
+                                            style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                                            <div class="day-name"
+                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
+                                                Sun</div>
+                                            <div class="day-name"
+                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
+                                                Mon</div>
+                                            <div class="day-name"
+                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
+                                                Tue</div>
+                                            <div class="day-name"
+                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
+                                                Wed</div>
+                                            <div class="day-name"
+                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
+                                                Thu</div>
+                                            <div class="day-name"
+                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
+                                                Fri</div>
+                                            <div class="day-name"
+                                                style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
+                                                Sat</div>
                                             <div id="days" style="display: flex; flex-wrap: wrap;"></div>
                                         </div>
                                     </div>
 
-                                    <div id="eventDetails" style="display: none; background-color: #fff; border: 1px solid #ddd; padding: 10px; margin-top: 10px;">
+                                    <div id="eventDetails"
+                                        style="display: none; background-color: #fff; border: 1px solid #ddd; padding: 10px; margin-top: 10px;">
                                         <h3>Event Details</h3>
                                         <div id="eventContent"></div>
                                     </div>
@@ -265,8 +380,10 @@
 
                                         // Update the month and year display
                                         function updateMonthYear() {
-                                            let monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-                                                "November", "December"][month - 1];
+                                            let monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+                                                "October",
+                                                "November", "December"
+                                            ][month - 1];
                                             document.getElementById("monthYear").innerHTML = `${monthName} ${year}`;
                                         }
 
