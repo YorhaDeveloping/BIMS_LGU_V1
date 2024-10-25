@@ -121,54 +121,55 @@ public function search(Request $request)
 {
     // Validate the incoming request data
     $request->validate([
-        'building_name' => 'required|string|max:255',
-        'building_structure' => 'required|string|max:255',
-        'building_type' => 'required|string|max:255',
-        'building_area' => 'required|string|max:255',
-        'lot_area' => 'required|string|max:255',
-        'building_location' => 'required|string|max:255',
-        'building_in_charge' => 'required|string|max:255',
-        'date_of_completion' => 'required|date',
-        'lati' => 'required|numeric',
-        'longti' => 'required|numeric',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image file
+        'building_name' => 'required',
+        'building_structure' => 'required',
+        'building_type' => 'required',
+        'building_area' => 'required',
+        'lot_area' => 'required',
+        'building_location' => 'required',
+        'building_in_charge' => 'required',
+        'date_of_completion' => 'required',
+        'lati' => 'required',
+        'longti' => 'required',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5000',
     ]);
 
-    // Find the building record
-    $buildings = Building::findOrFail($id);
+    // Find the building by its ID
+    $building = Building::findOrFail($id);
 
-    // Update the building data
-    $buildings->update([
-        'building_name' => $request->input('building_name'),
-        'building_structure' => $request->input('building_structure'),
-        'building_type' => $request->input('building_type'),
-        'building_area' => $request->input('building_area'),
-        'lot_area' => $request->input('lot_area'),
-        'building_location' => $request->input('building_location'),
-        'building_in_charge' => $request->input('building_in_charge'),
-        'date_of_completion' => $request->input('date_of_completion'),
-        'lati' => $request->input('lati'),
-        'longti' => $request->input('longti'),
-    ]);
+    // Update building details
+    $building->building_name = $request->building_name;
+    $building->building_structure = $request->building_structure;
+    $building->building_type = $request->building_type;
+    $building->building_area = $request->building_area;
+    $building->lot_area = $request->lot_area;
+    $building->building_location = $request->building_location;
+    $building->building_in_charge = $request->building_in_charge;
+    $building->date_of_completion = $request->date_of_completion;
+    $building->lati = $request->lati;
+    $building->longti = $request->longti;
 
-    // Handle the image upload if a new image is provided
+    // Handle image upload if a new image is provided
     if ($request->hasFile('image')) {
         // Delete the old image if it exists
-        if ($buildings->image && \Storage::exists(str_replace('storage/', 'public/', $buildings->image))) {
-            \Storage::delete(str_replace('storage/', 'public/', $buildings->image));
+        if ($building->image && \Storage::disk('public')->exists($building->image)) {
+            \Storage::disk('public')->delete($building->image);
         }
 
-        // Upload the new image
-        $image = $request->file('image');
-        $imagePath = $image->store('public/images'); // Save to storage/app/public/images
-        $buildings->image = str_replace('public/', 'storage/', $imagePath); // Update the image path
+        // Store the new image and get its path
+        $imagePath = $request->file('image')->store('images', 'public');
 
-        // Save the updated building with the new image path
-        $buildings->save();
+        // Update the image path in the database
+        $building->image = $imagePath;
     }
 
-    return redirect()->route('admin.building.index')->with('success', 'Building updated successfully');
+    // Save the updated building details
+    $building->save();
+
+    // Redirect or respond with success message
+    return redirect()->back()->with('success', 'Building updated successfully.');
 }
+
 
     /**
      * Remove the specified resource from storage.
