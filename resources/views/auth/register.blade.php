@@ -159,11 +159,11 @@
     <div class="form_container">
         <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
             <a href="/">
-                <img src="{{ asset('logo/aparri.png') }}" alt="Logo" style="height: 10vh;">
+                <img src="{{ asset('logo/bims-logo.png') }}" alt="Logo" style="height: 10vh;">
             </a>
         </div>
         <div class="title_container">
-            <p class="title">Register to Capstone Project</p>
+            <p class="title">Register to LGU APARRI BIMS</p>
             <span class="subtitle">Get started with our Site, Login or Register Below!</span>
         </div>
 

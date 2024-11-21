@@ -18,55 +18,15 @@ class CTRLmntnns extends Controller
      */
     public function index()
     {
-        $maintenances = Maintenance::all();
-        $maintenances = Maintenance::paginate(5);
+        $maintenances = Maintenance::where('request_status', 'Pending')->paginate(10);
         return view('admin.maintenance.index', compact('maintenances'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function ongoing()
     {
-        $buildings = building::all();
-        return view('admin.maintenance.create', compact('buildings'));
+        $maintenances = Maintenance::where('request_status', 'Approved')->paginate(10);
+        return view('admin.maintenance.ongoing', compact('maintenances'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        // Validation as above
-
-        $maintenanceData = [
-            'buildings_name' => $request->buildings_name,
-            'maintenance_type' => $request->maintenance_type,
-            'issue_description' => $request->issue_description,
-            'priority' => $request->priority,
-            'submitter_name' => $request->submitter_name,
-            'submitter_email' => $request->submitter_email,
-            'submitter_phone' => $request->submitter_phone,
-            'submittion_date' => $request->submittion_date,
-            'status' => $request->status,
-        ];
-
-        // Handle file uploads
-        if ($request->hasFile('attachments')) {
-            $attachmentPaths = [];
-            foreach ($request->file('attachments') as $file) {
-                $path = $file->store('attachments', 'public');
-                $attachmentPaths[] = $path;
-            }
-            $maintenanceData['attachments'] = json_encode($attachmentPaths); // Store as JSON
-        }
-
-        $maintenances = new Maintenance($maintenanceData);
-        $maintenances->save();
-
-        return redirect()->route('admin.maintenance.index')->with('success', 'Maintenance request submitted successfully.');
-    }
-
 
     /**
      * Display the specified resource.
@@ -79,52 +39,30 @@ class CTRLmntnns extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $maintenance = Maintenance::findOrFail($id);
-        $buildings = building::all();
-        return view('admin.maintenance.edit', compact('maintenance', 'buildings'));
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function approve(Request $request, string $id)
     {
-        // Validate incoming request data
-        $request->validate([
-            'buildings_name' => ['required', 'string', 'max:255'],
-            'maintenance_type' => ['required', 'numeric'],
-            'issue_description' => ['required', 'string', 'max:255'],
-            'priority' => ['required', 'string', 'max:255'],
-            'attachments' => ['nullable', 'array'], // Make attachments optional
-            'submitter_name' => ['required', 'string', 'max:255'],
-            'submitter_email' => ['required', 'string', 'email', 'max:255'],
-            'submitter_phone' => ['required', 'numeric'],
-            'submittion_date' => ['required', 'date'],
-        ]);
-
-        // Find the existing maintenance record
         $maintenance = Maintenance::findOrFail($id);
-
-        // Update the record with new data
-        $maintenance->buildings_name = $request->buildings_name;
-        $maintenance->maintenance_type = $request->maintenance_type;
-        $maintenance->issue_description = $request->issue_description;
-        $maintenance->priority = $request->priority;
-        $maintenance->attachments = $request->attachments; // Handle attachments as needed
-        $maintenance->submitter_name = $request->submitter_name;
-        $maintenance->submitter_email = $request->submitter_email;
-        $maintenance->submitter_phone = $request->submitter_phone;
-        $maintenance->submittion_date = $request->submittion_date;
-
-        // Save changes to the database
+        $maintenance->request_status = 'Approved';
         $maintenance->save();
+        return redirect()->route('admin.maintenance.index');
+    }
 
-        // Redirect back to the index page with a success message
-        return redirect()->route('admin.maintenance.index')->with('success', 'Maintenance updated successfully!');
+    public function complete(Request $request, string $id)
+    {
+        $maintenance = Maintenance::findOrFail($id);
+        $maintenance->request_status = 'Completed';
+        $maintenance->save();
+        return redirect()->route('admin.maintenance.ongoing');
+    }
+
+    public function reject(Request $request, string $id)
+    {
+        $maintenance = Maintenance::findOrFail($id);
+        $maintenance->request_status = 'Rejected';
+        $maintenance->save();
+        return redirect()->route('admin.maintenance.index');
     }
 
     /**

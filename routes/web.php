@@ -12,6 +12,7 @@ use App\Models\room;
 use App\Models\Admin\Maintenance;
 use App\Http\Controllers\Admin\MetadataController;
 use App\Http\Controllers\Admin\CalendarController;
+use App\Http\Controllers\Users\CTRLMaintenance;
 
 
 
@@ -73,6 +74,12 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     Route::post('/building/store', [CTRLbuilding::class, 'store'])->name('admin.building.store');
     Route::get('admin/admin/building/search', [CTRLbuilding::class, 'search'])->name('admin.building.search');
 
+    Route::post('/maintenance/{id}/approve', [CTRLmntnns::class, 'approve'])->name('maintenance.approve');
+    Route::post('/maintenance/{id}/complete', [CTRLmntnns::class, 'complete'])->name('maintenance.complete');
+    Route::post('/maintenance/{id}/reject', [CTRLmntnns::class, 'reject'])->name('maintenance.reject');
+    Route::post('/building/{id}/archive', [CTRLbuilding::class, 'archive'])->name('building.archive');
+    Route::post('/building/{id}/unarchive', [CTRLbuilding::class, 'unarchive'])->name('building.unarchive');
+
 
     Route::get('/building/{id}', [CTRLbuilding::class, 'show'])->name('building.show');
 
@@ -91,6 +98,7 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     Route::get('/maintenance/{id}', [CTRLmntnns::class, 'show'])->name('maintenance.show');
     Route::get('/maintenance/{id}/edit', [CTRLmntnns::class, 'edit'])->name('maintenance.edit');
     Route::put('/maintenance/{id}', [CTRLmntnns::class, 'update'])->name('maintenance.update');
+    Route::get('/ongoing', [CTRLmntnns::class, 'ongoing'])->name('maintenance.ongoing');
     // Route::delete('/maintenance/{id}', [CTRLmntnns::class, 'destroy'])->name('maintenance.destroy');
 
 
@@ -105,7 +113,13 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
 
 // users routes here
 Route::namespace('App\Http\Controllers\Users')->prefix('users')->name('users.')->middleware('can:user-access')->group(function(){
-
+    Route::resource('maintenance', 'CTRLMaintenance');
+    Route::get('/maintenance/create', [CTRLMaintenance::class, 'create'])->name('maintenance.create');
+   Route::post('/maintenance', [CTRLMaintenance::class, 'store'])->name('maintenance.store');
+   Route::get('/maintenance/{id}', [CTRLMaintenance::class, 'show'])->name('maintenance.show');
+   Route::get('/maintenance/{id}/edit', [CTRLMaintenance::class, 'edit'])->name('maintenance.edit');
+   Route::put('/maintenance/{id}', [CTRLMaintenance::class, 'update'])->name('maintenance.update');
+    Route::delete('/maintenance/{id}', [CTRLMaintenance::class, 'destroy'])->name('maintenance.destroy');
 });
 require __DIR__.'/auth.php';
 

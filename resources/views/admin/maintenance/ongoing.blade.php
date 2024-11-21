@@ -6,7 +6,7 @@
     <div class="container py-5">
         <div class="card shadow-sm">
             <div class="card-header bg-primary text-white">
-                <h4 class="mb-0"><i class="fa fa-bullhorn"></i> LGU APARRI - Maintenance Requests</h4>
+                <h4 class="mb-0"><i class="fa fa-bullhorn"></i> LGU APARRI - Maintenance Requests Ongoing</h4>
             </div>
             <div class="card-body">
                 @if (session('success'))
@@ -23,7 +23,7 @@
 
                 @if (count($maintenances) == 0)
                     <div class="alert alert-primary">
-                        No Maintenance Request Available.
+                        No Ongoing Maintenance Requests Available.
                     </div>
                 @else
                     <div class="table-responsive">
@@ -47,16 +47,10 @@
                                         <td>
                                             <a href="{{ route('admin.maintenance.show', $maintenance->id) }}" class="btn btn-info btn-sm me-1">View</a>
 
-                                            <form action="{{ route('admin.maintenance.approve', $maintenance->id) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.maintenance.complete', $maintenance->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 <button type="submit" class="btn btn-success btn-sm"
-                                                    onclick="return confirm('Are you sure you want to approve this maintenance request?');">Approve</button>
-                                            </form>
-
-                                            <form action="{{ route('admin.maintenance.reject', $maintenance->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure you want to reject this maintenance request?');">Reject</button>
+                                                    onclick="return confirm('Are you sure that the Maintenance Request is COMPLETED?');">Completed</button>
                                             </form>
                                         </td>
                                     </tr>

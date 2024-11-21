@@ -1,220 +1,77 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <x-guest-layout>
+        <section class="bg-white">
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+                <div class="relative flex items-end px-4 pb-10 pt-60 sm:pb-16 md:justify-center lg:pb-24 bg-gray-50 sm:px-6 lg:px-8">
+                    <div class="absolute inset-0">
+                        <img class="object-cover w-full h-full" src="{{ asset('backgrounds/building_background.jpg') }}" alt="" />
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                    <div class="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/4">
+                        <div style="background-color: white; padding: 10px; border-radius: 10px;">
+                            <a href="{{ url('/') }}">
+                            <img src="{{ asset('logo/bims-logo.png') }}" alt="logo" style="width: 200px; height: 150px;">
+                        </a>
+                        </div>
+                    </div>
+                    <div class="relative flex items-center justify-center">
+                        <div class="w-full max-w-xl xl:w-full xl:mx-auto xl:pr-24 xl:max-w-xl">
+                            <h3 class="text-4xl font-bold text-white">LGU APARRI BUILDING INFRASTRUCTURE MANAGEMENT SYSTEM (BIMS)</h3>
+                        </div>
+                    </div>
+                </div>
 
-    <style>
-        .form_container {
-            width: fit-content;
-            height: fit-content;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            padding: 50px 40px 20px 40px;
-            background-color: #ffffff;
-            box-shadow: 0px 106px 42px rgba(0, 0, 0, 0.01),
-                0px 59px 36px rgba(0, 0, 0, 0.05), 0px 26px 26px rgba(0, 0, 0, 0.09),
-                0px 7px 15px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
-            border-radius: 11px;
-            font-family: "Inter", sans-serif;
-        }
+                <div class="flex items-center justify-center px-4 py-10 bg-white sm:px-6 lg:px-8 sm:py-16 lg:py-24">
+                    <div class="xl:w-full xl:max-w-sm 2xl:max-w-md xl:mx-auto">
+                        <h2 class="text-3xl font-bold leading-tight text-black sm:text-4xl">Sign in to LGU APARRI - BIMS</h2>
+                        <p class="mt-2 text-base text-gray-600">New here? <a href="{{ route('register') }}" title="Sign Up" class="font-medium text-blue-600 transition-all duration-200 hover:text-blue-700 focus:text-blue-700 hover:underline">Create an account</a></p>
 
-        .logo_container {
-            box-sizing: border-box;
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(180deg, rgba(248, 248, 248, 0) 50%, #F8F8F888 100%);
-            border: 1px solid #F7F7F8;
-            filter: drop-shadow(0px 0.5px 0.5px #EFEFEF) drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
-            border-radius: 11px;
-        }
+                        <!-- Start of Login Form -->
+                        <form class="mt-8" method="POST" action="{{ route('login') }}">
+                            @csrf
+                            <div class="space-y-5">
+                                <div class="input_container">
+                                    <label class="input_label" for="email_field">Email</label>
+                                    <input placeholder="name@mail.com" title="Email" name="email" type="email" class="input_field w-full" id="email_field" :value="old('email')" required autofocus>
+                                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                </div>
 
-        .title_container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
+                                <div class="input_container">
+                                    <label class="input_label" for="password_field">Password</label>
+                                    <input placeholder="Password" title="Password" name="password" type="password" class="input_field w-full" id="password_field" required>
+                                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                                </div>
 
-        .title {
-            margin: 0;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #212121;
-        }
+                                <button title="Sign In" type="submit" class="sign-in_btn w-full py-3 mt-6 text-white bg-blue-600 rounded-md">
+                                    <span>Sign In</span>
+                                </button>
 
-        .subtitle {
-            font-size: 0.725rem;
-            max-width: 80%;
-            text-align: center;
-            line-height: 1.1rem;
-            color: #8B8E98
-        }
+                                <div class="separator flex items-center my-4">
+                                    <hr class="w-full border-gray-300">
+                                    <span class="px-3 text-gray-400">Or</span>
+                                    <hr class="w-full border-gray-300">
+                                </div>
 
-        .input_container {
-            width: 100%;
-            height: fit-content;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
+                                <a href="{{ route('register') }}" title="Sign Up" class="block w-full text-center py-3 mt-4 bg-black rounded-md text-white">
+                                    <span>Sign Up</span>
+                                </a>
+                            </div>
+                        </form>
+                        <!-- End of Login Form -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        </x-guest-layout>
 
-        .icon {
-            width: 20px;
-            position: absolute;
-            z-index: 99;
-            left: 12px;
-            bottom: 9px;
-        }
-
-        .input_label {
-            font-size: 0.75rem;
-            color: #8B8E98;
-            font-weight: 600;
-        }
-
-        .input_field {
-            width: auto;
-            height: 40px;
-            padding: 0 0 0 40px;
-            border-radius: 7px;
-            outline: none;
-            border: 1px solid #e5e5e5;
-            filter: drop-shadow(0px 1px 0px #efefef) drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
-            transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
-        }
-
-        .input_field:focus {
-            border: 1px solid transparent;
-            box-shadow: 0px 0px 0px 2px #242424;
-            background-color: transparent;
-        }
-
-        .sign-in_btn {
-            width: 100%;
-            height: 40px;
-            border: 0;
-            background: #115DFC;
-            border-radius: 7px;
-            outline: none;
-            color: #ffffff;
-            cursor: pointer;
-        }
-
-        .sign-in_ggl {
-            width: 100%;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: #ffffff;
-            border-radius: 7px;
-            outline: none;
-            color: #242424;
-            border: 1px solid #e5e5e5;
-            filter: drop-shadow(0px 1px 0px #efefef) drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
-            cursor: pointer;
-        }
-
-        .sign-in_apl {
-            width: 100%;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: #212121;
-            border-radius: 7px;
-            outline: none;
-            color: #ffffff;
-            border: 1px solid #e5e5e5;
-            filter: drop-shadow(0px 1px 0px #efefef) drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
-            cursor: pointer;
-        }
-
-        .separator {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-            color: #8B8E98;
-        }
-
-        .separator .line {
-            display: block;
-            width: 100%;
-            height: 1px;
-            border: 0;
-            background-color: #e8e8e8;
-        }
-
-        .note {
-            font-size: 0.75rem;
-            color: #8B8E98;
-            text-decoration: underline;
-        }
-    </style>
-
-
-    <form class="form_container" method="POST" action="{{ route('login') }}">
-        @csrf
-        <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-            <a href="/">
-                <img src="{{ asset('logo/aparri.png') }}" alt="Logo" style="height: 10vh;">
-            </a>
-        </div>
-        <div class="title_container">
-            <p class="title">Login to your Account</p>
-            <span class="subtitle">Get started with our Site, Login or Register Below!</span>
-        </div>
-
-        <!-- Email Field -->
-        <div class="input_container">
-            <label class="input_label" for="email_field">Email</label>
-            <svg fill="none" viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg" class="icon">
-                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#141B34" d="M7 8.5L9.94202 10.2394C11.6572 11.2535 12.3428 11.2535 14.058 10.2394L17 8.5"></path>
-                <path stroke-linejoin="round" stroke-width="1.5" stroke="#141B34" d="M2.01577 13.4756C2.08114 16.5412 2.11383 18.0739 3.24496 19.2094C4.37608 20.3448 5.95033 20.3843 9.09883 20.4634C11.0393 20.5122 12.9607 20.5122 14.9012 20.4634C18.0497 20.3843 19.6239 20.3448 20.7551 19.2094C21.8862 18.0739 21.9189 16.5412 21.9842 13.4756C22.0053 12.4899 22.0053 11.5101 21.9842 10.5244C21.9189 7.45886 21.8862 5.92609 20.7551 4.79066C19.6239 3.65523 18.0497 3.61568 14.9012 3.53657C12.9607 3.48781 11.0393 3.48781 9.09882 3.53656C5.95033 3.61566 4.37608 3.65521 3.24495 4.79065C2.11382 5.92608 2.08114 7.45885 2.01576 10.5244C1.99474 11.5101 1.99475 12.4899 2.01577 13.4756Z"></path>
-            </svg>
-            <input placeholder="name@mail.com" title="Email" name="email" type="email" class="input_field" id="email_field" :value="old('email')" required autofocus>
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password Field -->
-        <div class="input_container">
-            <label class="input_label" for="password_field">Password</label>
-            <svg fill="none" viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg" class="icon">
-                <path stroke-linecap="round" stroke-width="1.5" stroke="#141B34" d="M18 11.0041C17.4166 9.91704 16.273 9.15775 14.9519 9.0993C13.477 9.03404 11.9788 9 10.329 9C8.67911 9 7.18091 9.03404 5.70604 9.0993C3.95328 9.17685 2.51295 10.4881 2.27882 12.1618C2.12602 13.2541 2 14.3734 2 15.5134C2 16.6534 2.12602 17.7727 2.27882 18.865C2.51295 20.5387 3.95328 21.8499 5.70604 21.9275C6.42013 21.9591 7.26041 21.9834 8 22"></path>
-                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#141B34" d="M6 9V6.5C6 4.01472 8.01472 2 10.5 2C12.9853 2 15 4.01472 15 6.5V9"></path>
-            </svg>
-            <input placeholder="Password" title="Password" name="password" type="password" class="input_field" id="password_field" required>
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Sign In Button -->
-        <button title="Sign In" type="submit" class="sign-in_btn">
-            <span>Sign In</span>
-        </button>
-
-        <!-- Separator -->
-        <div class="separator">
-            <hr class="line">
-            <span>Or</span>
-            <hr class="line">
-        </div>
-
-        <!-- Sign Up Link -->
-        <a href="{{ route('register') }}" title="Sign Up" class="sign-in_apl">
-            <span>Sign Up</span>
-        </a>
-        <p class="note">Terms of use & Conditions</p>
-    </form>
-
-    </div>
-</x-guest-layout>
+</body>
+</html>

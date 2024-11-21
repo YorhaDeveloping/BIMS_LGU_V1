@@ -52,11 +52,11 @@ public function search(Request $request)
         'building_name' => 'required',
         'building_structure' => 'required',
         'building_type' => 'required',
+        'building_cost' => 'required',
         'building_area' => 'required',
         'lot_area' => 'required',
         'building_location' => 'required',
         'building_in_charge' => 'required',
-        'date_of_completion' => 'required',
         'lati' => 'required',
         'longti' => 'required',
         'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -70,11 +70,11 @@ public function search(Request $request)
         'building_name' => $request->building_name,
         'building_structure' => $request->building_structure,
         'building_type' => $request->building_type,
+        'building_cost' => $request->building_cost,
         'building_area' => $request->building_area,
         'lot_area' => $request->lot_area,
         'building_location' => $request->building_location,
         'building_in_charge' => $request->building_in_charge,
-        'date_of_completion' => $request->date_of_completion,
         'lati' => $request->lati,
         'longti' => $request->longti,
         'image' => $path, // This path will be stored as 'images/your_image.jpg'
@@ -89,7 +89,29 @@ public function search(Request $request)
 }
 
 
+    /**
+     * Archive the specified resource.
+     */
+    public function archive(string $id)
+    {
+        $building = building::findOrFail($id);
+        $building->is_archived = 1;
+        $building->save();
 
+        return redirect()->route('admin.building.index')->with('success', 'Building archived successfully');
+    }
+
+    /**
+     * Unarchive the specified resource from storage.
+     */
+    public function unarchive(string $id)
+    {
+        $building = building::findOrFail($id);
+        $building->is_archived = 0;
+        $building->save();
+
+        return redirect()->route('admin.building.index')->with('success', 'Building unarchived successfully');
+    }
 
 
 
@@ -128,7 +150,6 @@ public function search(Request $request)
         'lot_area' => 'required',
         'building_location' => 'required',
         'building_in_charge' => 'required',
-        'date_of_completion' => 'required',
         'lati' => 'required',
         'longti' => 'required',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5000',
@@ -145,7 +166,6 @@ public function search(Request $request)
     $building->lot_area = $request->lot_area;
     $building->building_location = $request->building_location;
     $building->building_in_charge = $request->building_in_charge;
-    $building->date_of_completion = $request->date_of_completion;
     $building->lati = $request->lati;
     $building->longti = $request->longti;
 

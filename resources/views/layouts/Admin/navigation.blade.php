@@ -32,6 +32,10 @@
     <x-nav-link :href="route('admin.maintenance.index')" :active="request()->routeIs('admin.maintenance.index')" class="font-sans font-bold" style="text-decoration: none;">
         {{ __('Maintenance') }}
     </x-nav-link>
+
+    <x-nav-link :href="route('admin.maintenance.ongoing')" :active="request()->routeIs('admin.maintenance.ongoing')" class="font-sans font-bold" style="text-decoration: none;">
+        {{ __('Ongoing Maintenance') }}
+    </x-nav-link>
 </div>
 </div>
 

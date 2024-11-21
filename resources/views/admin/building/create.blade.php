@@ -42,14 +42,12 @@
                                                         required placeholder="Enter the Building Structure">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="building_type">Building Type</label>
+                                                    <label for="building_type">Building Usage</label>
                                                     <select name="building_type" class="form-control" required>
                                                         <option value="">Select Building Type</option>
-                                                        <option value="Residential Buildings">Residential Buildings</option>
                                                         <option value="Commercial Buildings">Commercial Buildings</option>
                                                         <option value="Industrial Buildings">Industrial Buildings</option>
                                                         <option value="Institutional Buildings">Institutional Buildings</option>
-                                                        <option value="Mixed-Use Buildings">Mixed-Use Buildings</option>
                                                         <option value="Agricultural Buildings">Agricultural Buildings</option>
                                                         <option value="Recreational Buildings">Recreational Buildings</option>
                                                         <option value="Cultural Buildings">Cultural Buildings</option>
@@ -58,6 +56,11 @@
                                                         <option value="Special Purpose Building">Special Purpose Building
                                                         </option>
                                                     </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="building_cost">Building Cost</label>
+                                                    <input type="text" name="building_cost" class="form-control" required
+                                                        placeholder="Enter Building Cost">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="building_area">Building Area</label>
@@ -86,11 +89,11 @@
                                                     <input type="text" name="building_in_charge" class="form-control"
                                                         required placeholder="Enter the Building In-Charge">
                                                 </div>
-                                                <div class="form-group">
+                                                {{-- <div class="form-group">
                                                     <label for="date_of_completion">Expected Date of Completion</label>
                                                     <input type="date" name="date_of_completion" class="form-control"
                                                         required>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </div>

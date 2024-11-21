@@ -1,4 +1,4 @@
-@extends('layouts.Admin.app')
+@extends('layouts.Users.app')
 
 @section('content')
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="mt-4">
-                <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+                <a href="{{ route('users.maintenance.index') }}" class="btn btn-secondary">Back to Maintenance List</a>
             </div>
         </div>
     </div>
