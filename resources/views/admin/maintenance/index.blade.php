@@ -34,7 +34,7 @@
 
                                     <th scope="col">Submitter</th>
 
-                                    <th scope="col">Request Status</th>
+                                    <th scope="col">Request Status</th>php
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>

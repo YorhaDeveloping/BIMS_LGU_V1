@@ -13,6 +13,7 @@ use App\Models\Admin\Maintenance;
 use App\Http\Controllers\Admin\MetadataController;
 use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Users\CTRLMaintenance;
+use App\Http\Controllers\CTRLReports;
 
 
 
@@ -56,9 +57,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-
-
+Route::namespace('App\Http\Controllers')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function(){
+Route::get('/reports', [CTRLReports::class, 'index'])->name('reports');
+    Route::get('/reports/export', [CTRLReports::class, 'exportReports'])->name('reports.export');
+});
 
 // admin routes here
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function(){
@@ -87,6 +89,8 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     Route::resource('room', 'CTRLrooms');
     Route::get('/admin/room', [CTRLrooms::class, 'create'])->name('admin.room.create');
     Route::get('/admin/room', [CTRLrooms::class, 'index'])->name('admin.room.index');
+
+
 
     //route for maintenance
 
@@ -121,6 +125,7 @@ Route::namespace('App\Http\Controllers\Users')->prefix('users')->name('users.')-
    Route::put('/maintenance/{id}', [CTRLMaintenance::class, 'update'])->name('maintenance.update');
     Route::delete('/maintenance/{id}', [CTRLMaintenance::class, 'destroy'])->name('maintenance.destroy');
 });
+
 require __DIR__.'/auth.php';
 
 

@@ -15,7 +15,9 @@ class CTRLMaintenance extends Controller
 {
     public function index()
     {
-        $maintenances = Maintenance::where('submitter_name', Auth::user()->name)->paginate(5);
+        $maintenances = Maintenance::where('submitter_name', Auth::user()->name)
+                                   ->whereIn('request_status', ['Approved / Ongoing', 'Pending'])
+                                   ->paginate(5);
         return view('users.maintenance.index', compact('maintenances'));
     }
 
@@ -32,39 +34,50 @@ class CTRLMaintenance extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    // Validation as above
+    {
+        // Validation as needed
+        $this->validate($request, [
+            'attachments.*' => 'file|mimes:jpg,png,pdf|max:2048', // Example validation
+        ]);
 
-    $maintenanceData = [
-        'buildings_name' => $request->buildings_name,
-        'maintenance_type' => implode(',', $request->maintenance_type), // Store as comma-separated string
-        'issue_description' => $request->issue_description,
-        'priority' => $request->priority,
-        'submitter_name' => Auth::user()->name,
-        'submitter_email' => $request->submitter_email,
-        'submitter_phone' => $request->submitter_phone,
-        'submittion_date' => $request->submittion_date,
-        'status' => $request->status,
-        'request_status' => 'Pending',
-    ];
+        $maintenanceData = [
+            'buildings_name' => $request->buildings_name,
+            'maintenance_type' => implode(',', $request->maintenance_type), // Store as comma-separated string
+            'issue_description' => $request->issue_description,
+            'priority' => $request->priority,
+            'submitter_name' => Auth::user()->name,
+            'submitter_email' => $request->submitter_email,
+            'submitter_phone' => $request->submitter_phone,
+            'submittion_date' => $request->submittion_date,
+            'status' => $request->status,
+            'request_status' => 'Pending',
+            'last_renovation_date' => $request->last_renovation_date,
+        ];
 
-    // Handle file uploads
-    if ($request->hasFile('attachments')) {
-        $attachmentPaths = [];
-        foreach ($request->file('attachments') as $file) {
-            $path = $file->store('attachments', 'public');
-            $attachmentPaths[] = $path;
+        // Handle file uploads
+        if ($request->hasFile('attachments')) {
+            $attachmentPaths = [];
+
+            // Loop through each file in the attachments array
+            foreach ($request->file('attachments') as $file) {
+                if ($file->isValid()) {
+                    // Store the file and get the path
+                    $attachmentPaths[] = $file->store('attachments', 'public');
+                }
+            }
+
+            // If any attachments are uploaded, save their paths as a comma-separated string
+            if (!empty($attachmentPaths)) {
+                $maintenanceData['attachments'] = implode(',', $attachmentPaths);
+            }
         }
-        $maintenanceData['attachments'] = $attachmentPaths; // Store as array
+
+        // Save the maintenance data
+        $maintenances = new Maintenance($maintenanceData);
+        $maintenances->save();
+
+        return redirect()->route('users.maintenance.index')->with('success', 'Maintenance request submitted successfully.');
     }
-
-    $maintenances = new Maintenance($maintenanceData);
-    $maintenances->save();
-
-    return redirect()->route('users.maintenance.index')->with('success', 'Maintenance request submitted successfully.');
-}
-
-
 
     /**
      * Display the specified resource.
@@ -91,11 +104,12 @@ class CTRLMaintenance extends Controller
      */
     public function update(Request $request, string $id)
     {
-       // Validation as above
+        // Validation (add your rules as needed)
 
-       $maintenanceData = [
+        // Prepare maintenance data
+        $maintenanceData = [
             'buildings_name' => $request->buildings_name,
-            'maintenance_type' => implode(',', $request->maintenance_type),
+            'maintenance_type' => implode(',', $request->maintenance_type), // Store as comma-separated string
             'issue_description' => $request->issue_description,
             'priority' => $request->priority,
             'submitter_name' => Auth::user()->name,
@@ -103,24 +117,33 @@ class CTRLMaintenance extends Controller
             'submitter_phone' => $request->submitter_phone,
             'submittion_date' => $request->submittion_date,
             'status' => $request->status,
-
-
+            'last_renovation_date' => $request->last_renovation_date,
         ];
+
+        $maintenance = Maintenance::findOrFail($id);
 
         // Handle file uploads
         if ($request->hasFile('attachments')) {
-            $attachmentPaths = [];
+            $filePaths = [];
+
+            // Decode existing attachments if necessary
+            $existingAttachments = $maintenance->attachments ? explode(',', $maintenance->attachments) : [];
+
             foreach ($request->file('attachments') as $file) {
-                $path = $file->store('attachments', 'public');
-                $attachmentPaths[] = $path;
+                $filePaths[] = $file->store('attachments', 'public'); // Save new files
             }
-            $maintenanceData['attachments'] = json_encode($attachmentPaths); // Store as JSON
+
+            // Combine old and new file paths
+            $allFilePaths = array_merge($existingAttachments, $filePaths);
+
+            // Save file paths as a comma-separated string
+            $maintenanceData['attachments'] = implode(',', $allFilePaths);
         }
 
-        $maintenance = Maintenance::findOrFail($id);
+        // Update maintenance record
         $maintenance->update($maintenanceData);
 
-        return redirect()->route('users.maintenance.index')->with('success', 'Maintenance request Updated successfully.');
+        return redirect()->route('users.maintenance.index')->with('success', 'Maintenance request updated successfully.');
     }
 
 /**

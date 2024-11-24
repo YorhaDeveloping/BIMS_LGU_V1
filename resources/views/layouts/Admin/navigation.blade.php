@@ -36,11 +36,15 @@
     <x-nav-link :href="route('admin.maintenance.ongoing')" :active="request()->routeIs('admin.maintenance.ongoing')" class="font-sans font-bold" style="text-decoration: none;">
         {{ __('Ongoing Maintenance') }}
     </x-nav-link>
+
+    <x-nav-link :href="route('admin.reports')" :active="request()->routeIs('admin.reports')" class="font-sans font-bold" style="text-decoration: none;">
+        {{ __('Reports') }}
+    </x-nav-link>
 </div>
 </div>
 
 
-         <!-- Search Bar -->
+         {{-- <!-- Search Bar -->
          <div class="flex items-center justify-center sm:justify-start">
     <div class="relative search-container flex items-center w-full sm:w-auto">
         <!-- Boxicon for the search icon -->
@@ -59,7 +63,7 @@
             </button>
         </form>
     </div>
-</div>
+</div> --}}
 
 
 

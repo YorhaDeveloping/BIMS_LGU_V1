@@ -26,7 +26,7 @@
                     <a href="{{ route('users.maintenance.create') }}" class="btn btn-primary">Add New Maintenance
                         Request</a>
                 </div>
-                
+
                 @if (count($maintenances) == 0)
                 <div class="alert alert-primary">
                     No maintenance requests available.
@@ -49,7 +49,7 @@
                             @foreach ($maintenances as $maintenance)
                                 <tr>
                                     <td>{{ $maintenance->buildings_name }}</td>
-                                    <td>{{ $maintenance->maintenance_type }}</td>
+                                    <td>{{ Str::limit($maintenance->maintenance_type, 20) }}</td>
                                     <td>{{ $maintenance->priority }}</td>
                                     <td>{{ $maintenance->submitter_name }}</td>
                                     <td>{{ $maintenance->submittion_date }}</td>

@@ -24,7 +24,7 @@ class CTRLmntnns extends Controller
 
     public function ongoing()
     {
-        $maintenances = Maintenance::where('request_status', 'Approved')->paginate(10);
+        $maintenances = Maintenance::where('request_status', 'Approved / Ongoing')->paginate(10);
         return view('admin.maintenance.ongoing', compact('maintenances'));
     }
 
@@ -44,7 +44,7 @@ class CTRLmntnns extends Controller
     public function approve(Request $request, string $id)
     {
         $maintenance = Maintenance::findOrFail($id);
-        $maintenance->request_status = 'Approved';
+        $maintenance->request_status = 'Approved / Ongoing';
         $maintenance->save();
         return redirect()->route('admin.maintenance.index');
     }

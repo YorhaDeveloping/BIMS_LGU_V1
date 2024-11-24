@@ -175,8 +175,8 @@
                                         </select><br>
 
                                         <label for="attachments">Attachments (Optional):</label>
-                                        <input type="file" class="form-control-file" id="attachments"
-                                            name="attachments" multiple>
+                                        <input type="file" class="form-control-file" id="attachments" name="attachments[]" multiple>
+
                                     </div>
 
                                     <div class="col-md-4">
