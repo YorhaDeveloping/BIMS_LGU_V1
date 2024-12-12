@@ -17,6 +17,7 @@
                             <th>Lot Area (sq ft)</th>
                             <th>Building Location</th>
                             <th>Building In-Charge</th>
+                            <th>Date Constructed</th>
                             <th>Date of Completion</th>
                         </tr>
                     </thead>
@@ -29,10 +30,11 @@
                             <td>{{ $buildings->lot_area }}</td>
                             <td>{{ $buildings->building_location }}</td>
                             <td>{{ $buildings->building_in_charge }}</td>
+                            <td>{{ \Carbon\Carbon::parse($buildings->date_constructed)->format('Y-m-d') }}</td>
                             <td>{{ \Carbon\Carbon::parse($buildings->date_of_completion)->format('Y-m-d') }}</td>
                         </tr>
                     </tbody>
-                    
+
                 </table>
             </div>
         </div>

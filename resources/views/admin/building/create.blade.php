@@ -67,6 +67,18 @@
                                                     <input type="text" name="building_area" class="form-control" required
                                                         placeholder="Enter the Building Area">
                                                 </div>
+
+                                                <div class="form-group">
+                                                    <label for="date_constructed">Date Constructed</label>
+                                                    <input type="date" name="date_constructed" class="form-control" required
+                                                        placeholder="Enter the Date Constructed">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="date_of_completion">Date of Completion</label>
+                                                    <input type="date" name="date_of_completion" class="form-control" required
+                                                        placeholder="Enter the Date of Completion">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -78,6 +90,52 @@
                                                     <label for="lot_area">Lot Area</label>
                                                     <input type="text" name="lot_area" class="form-control" required
                                                         placeholder="Enter the Lot Area">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="barangay">Barangay</label>
+                                                    <select name="barangay" class="form-control" required>
+                                                        <option value="">Select Barangay</option>
+                                                        <option value="Brgy. Backiling">Brgy. Backiling</option>
+                                                        <option value="Brgy. Bangag">Brgy. Bangag</option>
+                                                        <option value="Brgy. Binalan">Brgy. Binalan</option>
+                                                        <option value="Brgy. Bisagu">Brgy. Bisagu</option>
+                                                        <option value="Brgy. Bukig">Brgy. Bukig</option>
+                                                        <option value="Brgy. Bulala Norte">Brgy. Bulala Norte</option>
+                                                        <option value="Brgy. Bulala Sur">Brgy. Bulala Sur</option>
+                                                        <option value="Brgy. Caagaman">Brgy. Caagaman</option>
+                                                        <option value="Brgy. Centro 1">Brgy. Centro 1</option>
+                                                        <option value="Brgy. Centro 10">Brgy. Centro 10</option>
+                                                        <option value="Brgy. Centro 11">Brgy. Centro 11</option>
+                                                        <option value="Brgy. Centro 12">Brgy. Centro 12</option>
+                                                        <option value="Brgy. Centro 13">Brgy. Centro 13</option>
+                                                        <option value="Brgy. Centro 14">Brgy. Centro 14</option>
+                                                        <option value="Brgy. Centro 15">Brgy. Centro 15</option>
+                                                        <option value="Brgy. Centro 2">Brgy. Centro 2</option>
+                                                        <option value="Brgy. Centro 3">Brgy. Centro 3</option>
+                                                        <option value="Brgy. Centro 4">Brgy. Centro 4</option>
+                                                        <option value="Brgy. Centro 5">Brgy. Centro 5</option>
+                                                        <option value="Brgy. Centro 6">Brgy. Centro 6</option>
+                                                        <option value="Brgy. Centro 7">Brgy. Centro 7</option>
+                                                        <option value="Brgy. Centro 8">Brgy. Centro 8</option>
+                                                        <option value="Brgy. Centro 9">Brgy. Centro 9</option>
+                                                        <option value="Brgy. Dodan">Brgy. Dodan</option>
+                                                        <option value="Brgy. Gaddang">Brgy. Gaddang</option>
+                                                        <option value="Brgy. Linao">Brgy. Linao</option>
+                                                        <option value="Brgy. Macanaya">Brgy. Macanaya</option>
+                                                        <option value="Brgy. Mabanguc">Brgy. Mabanguc</option>
+                                                        <option value="Brgy. Maura">Brgy. Maura</option>
+                                                        <option value="Brgy. Minanga">Brgy. Minanga</option>
+                                                        <option value="Brgy. Navagan">Brgy. Navagan</option>
+                                                        <option value="Brgy. Paruddun Norte">Brgy. Paruddun Norte</option>
+                                                        <option value="Brgy. Paruddun Sur">Brgy. Paruddun Sur</option>
+                                                        <option value="Brgy. Plaza">Brgy. Plaza</option>
+                                                        <option value="Brgy. Punta">Brgy. Punta</option>
+                                                        <option value="Brgy. San Antonio">Brgy. San Antonio</option>
+                                                        <option value="Brgy. Sanja">Brgy. Sanja</option>
+                                                        <option value="Brgy. Tallungan">Brgy. Tallungan</option>
+                                                        <option value="Brgy. Toran">Brgy. Toran</option>
+                                                        <option value="Brgy. Zinarag">Brgy. Zinarag</option>
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="building_location">Building Location</label>

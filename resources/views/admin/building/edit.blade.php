@@ -11,7 +11,8 @@
                         <center>Building Informations</center>
                     </h4>
 
-                    <form action="{{ route('admin.building.update', $buildings->id) }}" method="POST" class="was-validated" enctype="multipart/form-data">
+                    <form action="{{ route('admin.building.update', $buildings->id) }}" method="POST" class="was-validated"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -64,6 +65,9 @@
                                     <label for="building_area" class="pt-4">Building Area</label><br>
                                     <input type="text" name="building_area" class="form-control"
                                         value="{{ $buildings->building_area }}" required><br>
+                                    <label for="building_cost">Building Cost</label><br>
+                                    <input type="text" name="building_cost" class="form-control"
+                                        value="{{ $buildings->building_cost }}" required><br>
                                 </div>
 
                                 <div class="col-sm-6">
@@ -75,6 +79,18 @@
                                     <input type="text" name="building_location" class="form-control"
                                         value="{{ $buildings->building_location }}" required><br>
 
+                                        <div class="form-group">
+                                            <label for="barangay">Barangay</label>
+                                            <select name="barangay" class="form-control" required>
+                                                <option value="">Select Barangay</option>
+                                                @foreach(['Backiling', 'Bangag', 'Binalan', 'Bisagu', 'Bukig', 'Bulala Norte', 'Bulala Sur', 'Caagaman', 'Centro 1', 'Centro 10', 'Centro 11', 'Centro 12', 'Centro 13', 'Centro 14', 'Centro 15', 'Centro 2', 'Centro 3', 'Centro 4', 'Centro 5', 'Centro 6', 'Centro 7', 'Centro 8', 'Centro 9', 'Dodan', 'Gaddang', 'Linao', 'Macanaya', 'Mabanguc', 'Maura', 'Minanga', 'Navagan', 'Paruddun Norte', 'Paruddun Sur', 'Plaza', 'Punta', 'San Antonio', 'Sanja', 'Tallungan', 'Toran', 'Zinarag'] as $barangay)
+                                                    <option value="Brgy. {{ $barangay }}" {{ $buildings->barangay == "Brgy. $barangay" ? 'selected' : '' }}>
+                                                        Brgy. {{ $barangay }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
                                     <label for="building_in_charge">Building In-Charge</label><br>
                                     <input type="text" name="building_in_charge" class="form-control"
                                         value="{{ $buildings->building_in_charge }}" required><br>
@@ -82,7 +98,12 @@
                                     <label for="date_of_completion">Date of Completion</label><br>
                                     <input type="date" name="date_of_completion" class="form-control"
                                         value="{{ $buildings->date_of_completion }}" required><br>
-                                    <br>
+
+                                    <label for="date_constructed">Date Constructed</label><br>
+                                    <input type="date" name="date_constructed" class="form-control"
+                                        value="{{ $buildings->date_constructed }}" required><br>
+
+
                                 </div>
 
                                 <div class="col-sm-6">
@@ -92,15 +113,13 @@
                                             <input type="file" class="form-control-file" name="image" accept="image/*">
                                             @if (!empty($buildings) && $buildings->image)
                                                 <img src="{{ asset('storage/' . $buildings->image) }}"
-                                                     style="max-width: 300px; margin-top: 1em;"
-                                                     alt="Building Image"/>
+                                                    style="max-width: 300px; margin-top: 1em;" alt="Building Image" />
                                             @else
                                                 <p>No image available.</p>
                                             @endif
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <div style="margin-top: 1em" class="card">
                                     <div class="card-body">
@@ -115,9 +134,9 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <label for="longitude" class="form-label">Longitude</label>
-                                                    <input type="text" class="form-control" name="longti" id="longitude"
-                                                        value="{{ $buildings->longti }}" placeholder="Enter longitude"
-                                                        required readonly>
+                                                    <input type="text" class="form-control" name="longti"
+                                                        id="longitude" value="{{ $buildings->longti }}"
+                                                        placeholder="Enter longitude" required readonly>
                                                 </div>
                                                 <div class="col-1 d-flex align-items-center mt-4">
                                                     <button id="openModal" type="button" class="btn btn-primary">

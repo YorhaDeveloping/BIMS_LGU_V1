@@ -18,12 +18,16 @@ class building extends Model
         'building_structure',
         'building_type',
         'building_area',
+        'building_cost',
         'lot_area',
         'building_location',
+        'barangay',
         'building_in_charge',
         'date_of_completion',
+        'date_constructed',
         'lati',
         'longti',
         'image',
+        'is_archived',
     ];
 }
