@@ -196,9 +196,9 @@
                                 </div>
                             </div>
 
-                            <div class="box-footer" style="display: flex; justify-content: flex-end;">
+                            <div class="box-footer" style="display: flex; justify-content: flex-end; padding-right: 30px;">
                                 <div class="text-center mt-3">
-                                    <input type="submit" class="btn btn-primary" value="Add">
+                                    <input type="submit" class="btn btn-primary" value="Submit">
                                 </div>
                             </div>
                         </form>

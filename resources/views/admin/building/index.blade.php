@@ -76,8 +76,8 @@
                                     <td>{{ $building->building_in_charge }}</td>
 
                                     <td class="text-center">
-                                        <a href="{{ route('admin.building.show', $building->id) }}" class="btn btn-info btn-sm me-1">View</a>
-                                        <a href="{{ route('admin.building.edit', $building->id) }}" class="btn btn-warning btn-sm me-1">Edit</a>
+                                        <a href="{{ route('admin.building.show', Crypt::encryptString($building->id)) }}" class="btn btn-info btn-sm me-1">View</a>
+                                        <a href="{{ route('admin.building.edit', Crypt::encryptString($building->id)) }}" class="btn btn-warning btn-sm me-1">Edit</a>
                                         <form action="{{ $building->is_archived ? route('admin.building.unarchive', $building->id) : route('admin.building.archive', $building->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             <button type="submit" class="btn {{ $building->is_archived ? 'btn-success' : 'btn-danger' }} btn-sm" onclick="return confirm('Are you sure you want to {{ $building->is_archived ? 'un-archive' : 'archive' }} this building?');">{{ $building->is_archived ? 'Un-archive' : 'Archive' }}</button>

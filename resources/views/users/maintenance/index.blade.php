@@ -55,17 +55,21 @@
                                     <td>{{ $maintenance->submittion_date }}</td>
                                     <td>{{ $maintenance->status }}</td>
                                     <td class="d-flex">
-                                        <a href="{{ route('users.maintenance.show', $maintenance->id) }}"
+                                        <a href="{{ route('users.maintenance.show', Crypt::encryptString($maintenance->id)) }}"
                                             class="btn btn-info btn-sm me-2">View</a>
-                                        <a href="{{ route('users.maintenance.edit', $maintenance->id) }}"
+                                        <a href="{{ route('users.maintenance.edit', Crypt::encryptString($maintenance->id)) }}"
                                             class="btn btn-warning btn-sm me-2">Edit</a>
-                                        <form action="{{ route('users.maintenance.destroy', $maintenance->id) }}"
-                                            method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Are you sure you want to delete this maintenance request?');">Delete</button>
-                                        </form>
+                                        @if ($maintenance->request_status !== 'Approved / Ongoing')
+                                            <form action="{{ route('users.maintenance.destroy', $maintenance->id) }}"
+                                                method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Are you sure you want to delete this maintenance request?');">Delete</button>
+                                            </form>
+                                        @else
+                                            <button type="button" class="btn btn-danger btn-sm" disabled>Delete</button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

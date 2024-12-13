@@ -204,7 +204,11 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <div class="box-footer" style="display: flex; justify-content: flex-end;">
+                                    <div class="text-center mt-3" style="width: 100%;">
+                                        <input type="submit" class="btn btn-primary" value="Submit" style="float: right;">
+                                    </div>
+                                </div>
 
                     </form>
                 </div>

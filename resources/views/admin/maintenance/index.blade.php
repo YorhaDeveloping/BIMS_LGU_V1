@@ -34,7 +34,7 @@
 
                                     <th scope="col">Submitter</th>
 
-                                    <th scope="col">Request Status</th>php
+                                    <th scope="col">Request Status</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -45,7 +45,7 @@
                                         <td>{{ $maintenance->submitter_name }}</td>
                                         <td>{{ $maintenance->request_status }}</td>
                                         <td>
-                                            <a href="{{ route('admin.maintenance.show', $maintenance->id) }}" class="btn btn-info btn-sm me-1">View</a>
+                                            <a href="{{ route('admin.maintenance.show', Crypt::encryptString($maintenance->id)) }}" class="btn btn-info btn-sm me-1">View</a>
 
                                             <form action="{{ route('admin.maintenance.approve', $maintenance->id) }}" method="POST" class="d-inline">
                                                 @csrf

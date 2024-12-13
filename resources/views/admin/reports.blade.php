@@ -17,7 +17,7 @@
 
                 @if (count($maintenances) == 0)
                 <div class="alert alert-primary">
-                    No maintenance requests available.
+                    No maintenance report available.
                 </div>
             @else
                 <div class="table-responsive">
@@ -27,7 +27,6 @@
                                 <th scope="col">Building Name</th>
                                 <th scope="col">Maintenance Type</th>
                                 <th scope="col">Priority</th>
-                                <th scope="col">Submitter</th>
                                 <th scope="col">Submission Date</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Request Status</th>
@@ -39,7 +38,6 @@
                                     <td>{{ $maintenance->buildings_name }}</td>
                                     <td>{{ Str::limit($maintenance->maintenance_type, 20) }}</td>
                                     <td>{{ $maintenance->priority }}</td>
-                                    <td>{{ $maintenance->submitter_name }}</td>
                                     <td>{{ $maintenance->submittion_date }}</td>
                                     <td>{{ $maintenance->status }}</td>
                                     <td>{{ $maintenance->request_status }}</td>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Maintenance;
 use App\Models\Admin\building;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 use db;
 use gate;
@@ -15,7 +16,7 @@ class CTRLMaintenance extends Controller
 {
     public function index()
     {
-        $maintenances = Maintenance::where('submitter_name', Auth::user()->name)
+        $maintenances = Maintenance::where('u_id', Auth::user()->id)
                                    ->whereIn('request_status', ['Approved / Ongoing', 'Pending'])
                                    ->paginate(5);
         return view('users.maintenance.index', compact('maintenances'));
@@ -45,13 +46,14 @@ class CTRLMaintenance extends Controller
             'maintenance_type' => implode(',', $request->maintenance_type), // Store as comma-separated string
             'issue_description' => $request->issue_description,
             'priority' => $request->priority,
-            'submitter_name' => Auth::user()->name,
+            'submitter_name' => 'Requesting Party / Requestee',
             'submitter_email' => $request->submitter_email,
             'submitter_phone' => $request->submitter_phone,
             'submittion_date' => $request->submittion_date,
             'status' => $request->status,
             'request_status' => 'Pending',
             'last_renovation_date' => $request->last_renovation_date,
+            'u_id' => Auth::user()->id,
         ];
 
         // Handle file uploads
@@ -82,11 +84,15 @@ class CTRLMaintenance extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $encryptedId)
     {
-        $maintenance = Maintenance::all();
-        $maintenance = Maintenance::findOrFail($id);
-        return view('users.maintenance.show', compact('maintenance'));
+        try {
+            $id = Crypt::decryptString($encryptedId);
+            $maintenance = Maintenance::findOrFail($id);
+            return view('users.maintenance.show', compact('maintenance'));
+        } catch (\Exception $e) {
+            abort(404, 'Invalid or tampered ID.');
+        }
     }
 
     /**
@@ -94,9 +100,14 @@ class CTRLMaintenance extends Controller
      */
     public function edit(string $id)
     {
-        $maintenance = Maintenance::findOrFail($id);
-        $buildings = building::all();
-        return view('users.maintenance.edit', compact('maintenance', 'buildings'));
+        try {
+            $id = Crypt::decryptString($id);
+            $maintenance = Maintenance::findOrFail($id);
+            $buildings = building::all();
+            return view('users.maintenance.edit', compact('maintenance', 'buildings'));
+        } catch (\Exception $e) {
+            abort(404, 'Invalid or tampered ID.');
+        }
     }
 
     /**

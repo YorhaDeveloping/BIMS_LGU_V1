@@ -33,9 +33,16 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+
+        $allowedDomains = ['gmail.com', 'yahoo.com'];
+        $emailDomain = substr(strrchr($request->email, "@"), 1);
+
+        if (!in_array($emailDomain, $allowedDomains)) {
+            return redirect()->back()->withErrors(['email' => 'Only Gmail and Yahoo email addresses are allowed.']);
+        }
 
         $user = User::create([
             'name' => $request->name,
@@ -45,8 +52,8 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        // adds role to a newly registered user as user role 
-        $role = Role::select('id')->where('name','user')->first();
+        $role = Role::select('id')->where('name', 'user')->first();
+        // adds role to a newly registered user as user role
         $user->roles()->attach($role);
 
         Auth::login($user);

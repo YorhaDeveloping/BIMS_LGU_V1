@@ -1,4 +1,4 @@
-@extends('layouts.Users.app')
+@extends('layouts.Admin.app')
 
 @section('content')
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>

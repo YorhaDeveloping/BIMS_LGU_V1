@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Maintenance;
 use App\Models\Admin\building;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Crypt;
 
 use Gate;
 use DB;
@@ -31,11 +32,16 @@ class CTRLmntnns extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $encryptedId)
     {
-        $maintenance = Maintenance::all();
-        $maintenance = Maintenance::findOrFail($id);
-        return view('admin.maintenance.show', compact('maintenance'));
+        try {
+            $id = Crypt::decryptString($encryptedId);
+            $maintenance = Maintenance::findOrFail($id);
+            $attachments = explode(',', $maintenance->attachments);
+            return view('admin.maintenance.show', compact('maintenance', 'attachments'));
+        } catch (\Exception $e) {
+            abort(404, 'Invalid or tampered ID.');
+        }
     }
 
     /**

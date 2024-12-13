@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\building;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Crypt;
+
 
 class CTRLbuilding extends Controller
 {
@@ -136,22 +138,41 @@ class CTRLbuilding extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $encryptedId)
     {
-        $buildings = building::all();
-        $buildings = building::findOrFail($id);
-        return view('admin.building.show', compact('buildings'));
+        try {
+            // Decrypt the ID from the URL
+            $id = Crypt::decryptString($encryptedId);
+
+            // Retrieve the building using the decrypted ID
+            $buildings = Building::findOrFail($id);
+
+            // Pass the building data to the view
+            return view('admin.building.show')->with('buildings', $buildings);
+        } catch (\Exception $e) {
+            return redirect()->route('admin.building.index')->with('error', 'Building not found.');
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        $buildings = building::find($id);
+    public function edit(string $encryptedId)
+{
+    try {
+        // Decrypt the ID from the URL
+        $id = Crypt::decryptString($encryptedId);
 
+        // Retrieve the building using the decrypted ID
+        $buildings = Building::findOrFail($id);
+
+        // Pass the building data to the view
         return view('admin.building.edit')->with('buildings', $buildings);
+    } catch (\Exception $e) {
+        // Handle cases where decryption fails
+        abort(404, 'Invalid or tampered ID.');
     }
+}
 
     /**
      * Update the specified resource in storage.

@@ -79,6 +79,7 @@
                         @endphp
                             <div class="row">
                                 <div class="col-xl-3 col-md-6 mb-4">
+                                    <a href="{{ route('admin.building.index') }}">
                                     <div class="card text-center" style="transition: all 0.3s ease-in-out;">
                                         <div class="card-header bg-success text-white">
                                             <div class="row align-items-center">
@@ -96,7 +97,7 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    </a>
                                     <style>
                                         .card:hover {
                                             transform: scale(1.1);
@@ -106,6 +107,7 @@
                                 </div>
 
                                 <div class="col-xl-3 col-md-6 mb-4">
+                                    <a href="{{ route('admin.maintenance.index') }}">
                                     <div class="card text-center" style="transition: all 0.3s ease-in-out;">
                                         <div class="card-header bg-danger text-white">
                                             <div class="row align-items-center">
@@ -123,7 +125,7 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    </a>
                                     <style>
                                         .card:hover {
                                             transform: scale(1.1);

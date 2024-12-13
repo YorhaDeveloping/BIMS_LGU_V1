@@ -24,7 +24,7 @@ class CTRLReports extends Controller
 
     public function index(): View
     {
-        $maintenances = Maintenance::all();
+        $maintenances = Maintenance::where('status', 'Completed')->get();
         return view('admin.reports', compact('maintenances'));
     }
 }

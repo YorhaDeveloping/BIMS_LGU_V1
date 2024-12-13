@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Maintenance;
 use App\Models\Admin\building;
 use Illuminate\View\View;
-
+use Illuminate\Support\Facades\Auth;
 use Gate;
 use DB;
 
@@ -44,11 +44,12 @@ class CTRLmntnns extends Controller
             'maintenance_type' => $request->maintenance_type,
             'issue_description' => $request->issue_description,
             'priority' => $request->priority,
-            'submitter_name' => Auth::user()->id,
+            'submitter_name' => 'Requesting Party / Requestee',
             'submitter_email' => $request->submitter_email,
             'submitter_phone' => $request->submitter_phone,
             'submittion_date' => $request->submittion_date,
             'status' => $request->status,
+            'u_id' => Auth::user()->id,
 
         ];
 
@@ -72,21 +73,30 @@ class CTRLmntnns extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $encryptedId)
     {
-        $maintenance = Maintenance::all();
-        $maintenance = Maintenance::findOrFail($id);
-        return view('users.maintenance.show', compact('maintenance'));
+        try {
+            $id = Crypt::decryptString($encryptedId);
+            $maintenance = Maintenance::findOrFail($id);
+            return view('users.maintenance.show', compact('maintenance'));
+        } catch (\Exception $e) {
+            abort(404, 'Invalid or tampered ID.');
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $encryptedId)
     {
-        $maintenance = Maintenance::findOrFail($id);
-        $buildings = building::all();
-        return view('users.maintenance.edit', compact('maintenance', 'buildings'));
+        try {
+            $id = Crypt::decryptString($encryptedId);
+            $maintenance = Maintenance::findOrFail($id);
+            $buildings = building::all();
+            return view('users.maintenance.edit', compact('maintenance', 'buildings'));
+        } catch (\Exception $e) {
+            abort(404, 'Invalid or tampered ID.');
+        }
     }
 
     /**
