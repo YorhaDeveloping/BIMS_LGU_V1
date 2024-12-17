@@ -83,6 +83,7 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     Route::post('/building/{id}/unarchive', [CTRLbuilding::class, 'unarchive'])->name('building.unarchive');
 
 
+
     Route::get('/building/{id}', [CTRLbuilding::class, 'show'])->name('building.show');
 
     //route for room

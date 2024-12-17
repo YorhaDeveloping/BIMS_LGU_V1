@@ -43,6 +43,7 @@ class CTRLmntnns extends Controller
             abort(404, 'Invalid or tampered ID.');
         }
     }
+    
 
     /**
      * Update the specified resource in storage.
