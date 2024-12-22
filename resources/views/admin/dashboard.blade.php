@@ -77,9 +77,9 @@
                             $totalBuildings = DB::table('buildings')->count();
                             $maintenances = DB::table('maintenances')->count();
                         @endphp
-                            <div class="row">
-                                <div class="col-xl-3 col-md-6 mb-4">
-                                    <a href="{{ route('admin.building.index') }}">
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <a href="{{ route('admin.building.index') }}">
                                     <div class="card text-center" style="transition: all 0.3s ease-in-out;">
                                         <div class="card-header bg-success text-white">
                                             <div class="row align-items-center">
@@ -97,17 +97,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    </a>
-                                    <style>
-                                        .card:hover {
-                                            transform: scale(1.1);
-                                        }
-                                    </style>
+                                </a>
+                                <style>
+                                    .card:hover {
+                                        transform: scale(1.1);
+                                    }
+                                </style>
 
-                                </div>
+                            </div>
 
-                                <div class="col-xl-3 col-md-6 mb-4">
-                                    <a href="{{ route('admin.maintenance.index') }}">
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <a href="{{ route('admin.maintenance.index') }}">
                                     <div class="card text-center" style="transition: all 0.3s ease-in-out;">
                                         <div class="card-header bg-danger text-white">
                                             <div class="row align-items-center">
@@ -125,15 +125,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    </a>
-                                    <style>
-                                        .card:hover {
-                                            transform: scale(1.1);
-                                        }
-                                    </style>
+                                </a>
+                                <style>
+                                    .card:hover {
+                                        transform: scale(1.1);
+                                    }
+                                </style>
 
-                                </div>
                             </div>
+                        </div>
 
                         <div class="container-fluid">
                             <div class="row">
@@ -206,6 +206,12 @@
                                                         theme: "light2",
                                                         title: {
                                                             text: "Total Buildings Yearly"
+                                                        },
+                                                        axisY: {
+                                                            interval: 1, // Ensure y-axis values are whole numbers
+                                                            labelFormatter: function(e) {
+                                                                return e.value.toFixed(0); // Format y-axis values as whole numbers
+                                                            }
                                                         },
                                                         data: [{
                                                             type: "line",
@@ -322,32 +328,46 @@
                                     </script>
                                 </div>
 
-                                <div class="calendar-container" style="display: flex; justify-content: space-between; gap: 10px; margin-top: 50px;">
+                                <div class="calendar-container"
+                                    style="display: flex; justify-content: space-between; gap: 10px; margin-top: 50px;">
                                     <!-- Column for Calendar -->
                                     <div class="calendar" style="background-color: #f9f9f9; padding: 20px; width: 65%;">
-                                        <div class="header" style="display: flex; justify-content: space-between; align-items: center;">
-                                            <button id="prev" style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 10px;">Previous</button>
+                                        <div class="header"
+                                            style="display: flex; justify-content: space-between; align-items: center;">
+                                            <button id="prev"
+                                                style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 10px;">Previous</button>
                                             <h2 id="monthYear" style="font-size: 20px; font-weight: bold; color: #333;"></h2>
-                                            <button id="next" style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 10px;">Next</button>
+                                            <button id="next"
+                                                style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 10px;">Next</button>
                                         </div>
-                                        <div class="days" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-                                            @foreach(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $dayName)
-                                                <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">{{ $dayName }}</div>
+                                        <div class="days"
+                                            style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                                            @foreach (['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $dayName)
+                                                <div class="day-name"
+                                                    style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
+                                                    {{ $dayName }}</div>
                                             @endforeach
                                             <div id="days" style="display: flex; flex-wrap: wrap;"></div>
                                         </div>
                                     </div>
 
                                     <!-- Column for Event Details -->
-                                    <div id="eventDetails" style="display: none; background-color: #fff; border: 1px solid #ddd; padding: 10px; width: 30%;">
+                                    <div id="eventDetails"
+                                        style="display: none; background-color: #fff; border: 1px solid #ddd; padding: 10px; width: 30%;">
                                         <h3><strong>Event Details</strong></h3>
                                         <div id="eventContent"></div>
                                     </div>
                                 </div>
 
                                 @php
-                                    $maintenanceStatuses = \App\Models\Admin\Maintenance::where('request_status', 'Approved / Ongoing')->get();
-                                    $maintenances = \App\Models\Admin\Maintenance::where('request_status', 'Approved / Ongoing')->get();
+                                    $maintenanceStatuses = \App\Models\Admin\Maintenance::where(
+                                        'request_status',
+                                        'Approved / Ongoing',
+                                    )->get();
+                                    $maintenances = \App\Models\Admin\Maintenance::where(
+                                        'request_status',
+                                        'Approved / Ongoing',
+                                    )->get();
                                 @endphp
 
                                 <script>
@@ -358,7 +378,9 @@
                                     let daysInMonth = new Date(year, month, 0).getDate();
 
                                     function updateMonthYear() {
-                                        let monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][month - 1];
+                                        let monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+                                            "October", "November", "December"
+                                        ][month - 1];
                                         document.getElementById("monthYear").innerHTML = `${monthName} ${year}`;
                                     }
 
