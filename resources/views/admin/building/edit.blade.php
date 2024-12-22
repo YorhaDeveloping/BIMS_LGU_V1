@@ -79,21 +79,103 @@
                                     <input type="text" name="building_location" class="form-control"
                                         value="{{ $buildings->building_location }}" required><br>
 
-                                        <div class="form-group">
-                                            <label for="barangay">Barangay</label>
-                                            <select name="barangay" class="form-control" required>
-                                                <option value="">Select Barangay</option>
-                                                @foreach(['Backiling', 'Bangag', 'Binalan', 'Bisagu', 'Bukig', 'Bulala Norte', 'Bulala Sur', 'Caagaman', 'Centro 1', 'Centro 10', 'Centro 11', 'Centro 12', 'Centro 13', 'Centro 14', 'Centro 15', 'Centro 2', 'Centro 3', 'Centro 4', 'Centro 5', 'Centro 6', 'Centro 7', 'Centro 8', 'Centro 9', 'Dodan', 'Gaddang', 'Linao', 'Macanaya', 'Mabanguc', 'Maura', 'Minanga', 'Navagan', 'Paruddun Norte', 'Paruddun Sur', 'Plaza', 'Punta', 'San Antonio', 'Sanja', 'Tallungan', 'Toran', 'Zinarag'] as $barangay)
-                                                    <option value="Brgy. {{ $barangay }}" {{ $buildings->barangay == "Brgy. $barangay" ? 'selected' : '' }}>
-                                                        Brgy. {{ $barangay }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="barangay">Barangay</label>
+                                        <select name="barangay" class="form-control" required>
+                                            <option value="">Select Barangay</option>
+                                            <option value="Backiling" {{ $buildings->barangay === 'Backiling' ? 'selected' : '' }}>
+                                                Backiling</option>
+                                            <option value="Bangag" {{ $buildings->barangay === 'Bangag' ? 'selected' : '' }}>
+                                                Bangag</option>
+                                            <option value="Binalan" {{ $buildings->barangay === 'Binalan' ? 'selected' : '' }}>
+                                                Binalan</option>
+                                            <option value="Bisagu" {{ $buildings->barangay === 'Bisagu' ? 'selected' : '' }}>
+                                                Bisagu</option>
+                                            <option value="Bukig" {{ $buildings->barangay === 'Bukig' ? 'selected' : '' }}>
+                                                Bukig</option>
+                                            <option value="Bulala Norte" {{ $buildings->barangay === 'Bulala Norte' ? 'selected' : '' }}>
+                                                Bulala Norte</option>
+                                            <option value="Bulala Sur" {{ $buildings->barangay === 'Bulala Sur' ? 'selected' : '' }}>
+                                                Bulala Sur</option>
+                                            <option value="Caagaman" {{ $buildings->barangay === 'Caagaman' ? 'selected' : '' }}>
+                                                Caagaman</option>
+                                            <option value="Centro 1" {{ $buildings->barangay === 'Centro 1' ? 'selected' : '' }}>
+                                                Centro 1</option>
+                                            <option value="Centro 10" {{ $buildings->barangay === 'Centro 10' ? 'selected' : '' }}>
+                                                Centro 10</option>
+                                            <option value="Centro 11" {{ $buildings->barangay === 'Centro 11' ? 'selected' : '' }}>
+                                                Centro 11</option>
+                                            <option value="Centro 12" {{ $buildings->barangay === 'Centro 12' ? 'selected' : '' }}>
+                                                Centro 12</option>
+                                            <option value="Centro 13" {{ $buildings->barangay === 'Centro 13' ? 'selected' : '' }}>
+                                                Centro 13</option>
+                                            <option value="Centro 14" {{ $buildings->barangay === 'Centro 14' ? 'selected' : '' }}>
+                                                Centro 14</option>
+                                            <option value="Centro 15" {{ $buildings->barangay === 'Centro 15' ? 'selected' : '' }}>
+                                                Centro 15</option>
+                                            <option value="Centro 2" {{ $buildings->barangay === 'Centro 2' ? 'selected' : '' }}>
+                                                Centro 2</option>
+                                            <option value="Centro 3" {{ $buildings->barangay === 'Centro 3' ? 'selected' : '' }}>
+                                                Centro 3</option>
+                                            <option value="Centro 4" {{ $buildings->barangay === 'Centro 4' ? 'selected' : '' }}>
+                                                Centro 4</option>
+                                            <option value="Centro 5" {{ $buildings->barangay === 'Centro 5' ? 'selected' : '' }}>
+                                                Centro 5</option>
+                                            <option value="Centro 6" {{ $buildings->barangay === 'Centro 6' ? 'selected' : '' }}>
+                                                Centro 6</option>
+                                            <option value="Centro 7" {{ $buildings->barangay === 'Centro 7' ? 'selected' : '' }}>
+                                                Centro 7</option>
+                                            <option value="Centro 8" {{ $buildings->barangay === 'Centro 8' ? 'selected' : '' }}>
+                                                Centro 8</option>
+                                            <option value="Centro 9" {{ $buildings->barangay === 'Centro 9' ? 'selected' : '' }}>
+                                                Centro 9</option>
+                                            <option value="Dodan" {{ $buildings->barangay === 'Dodan' ? 'selected' : '' }}>
+                                                Dodan</option>
+                                            <option value="Gaddang" {{ $buildings->barangay === 'Gaddang' ? 'selected' : '' }}>
+                                                Gaddang</option>
+                                            <option value="Linao" {{ $buildings->barangay === 'Linao' ? 'selected' : '' }}>
+                                                Linao</option>
+                                            <option value="Macanaya" {{ $buildings->barangay === 'Macanaya' ? 'selected' : '' }}>
+                                                Macanaya</option>
+                                            <option value="Mabanguc" {{ $buildings->barangay === 'Mabanguc' ? 'selected' : '' }}>
+                                                Mabanguc</option>
+                                            <option value="Maura" {{ $buildings->barangay === 'Maura' ? 'selected' : '' }}>
+                                                Maura</option>
+                                            <option value="Minanga" {{ $buildings->barangay === 'Minanga' ? 'selected' : '' }}>
+                                                Minanga</option>
+                                            <option value="Navagan" {{ $buildings->barangay === 'Navagan' ? 'selected' : '' }}>
+                                                Navagan</option>
+                                            <option value="Paruddun Norte" {{ $buildings->barangay === 'Paruddun Norte' ? 'selected' : '' }}>
+                                                Paruddun Norte</option>
+                                            <option value="Paruddun Sur" {{ $buildings->barangay === 'Paruddun Sur' ? 'selected' : '' }}>
+                                                Paruddun Sur</option>
+                                            <option value="Plaza" {{ $buildings->barangay === 'Plaza' ? 'selected' : '' }}>
+                                                Plaza</option>
+                                            <option value="Punta" {{ $buildings->barangay === 'Punta' ? 'selected' : '' }}>
+                                                Punta</option>
+                                            <option value="San Antonio" {{ $buildings->barangay === 'San Antonio' ? 'selected' : '' }}>
+                                                San Antonio</option>
+                                            <option value="Sanja" {{ $buildings->barangay === 'Sanja' ? 'selected' : '' }}>
+                                                Sanja</option>
+                                            <option value="Tallungan" {{ $buildings->barangay === 'Tallungan' ? 'selected' : '' }}>
+                                                Tallungan</option>
+                                            <option value="Toran" {{ $buildings->barangay === 'Toran' ? 'selected' : '' }}>
+                                                Toran</option>
+                                            <option value="Zinarag" {{ $buildings->barangay === 'Zinarag' ? 'selected' : '' }}>
+                                                Zinarag</option>
+                                        </select>
+                                    </div>
 
                                     <label for="building_in_charge">Building In-Charge</label><br>
                                     <input type="text" name="building_in_charge" class="form-control"
                                         value="{{ $buildings->building_in_charge }}" required><br>
+
+                                    <div class="form-group">
+                                        <label for="position">Position</label>
+                                        <input type="text" name="position" class="form-control" required
+                                            value="{{ $buildings->position }}"
+                                            placeholder="Enter Position of Building In-Charge">
+                                    </div><br>
 
                                     <label for="date_of_completion">Date of Completion</label><br>
                                     <input type="date" name="date_of_completion" class="form-control"
@@ -110,7 +192,8 @@
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="image">Image</label>
-                                            <input type="file" class="form-control-file" name="image" accept="image/*">
+                                            <input type="file" class="form-control-file" name="image"
+                                                accept="image/*">
                                             @if (!empty($buildings) && $buildings->image)
                                                 <img src="{{ asset('storage/' . $buildings->image) }}"
                                                     style="max-width: 300px; margin-top: 1em;" alt="Building Image" />
@@ -123,14 +206,33 @@
 
                                 <div style="margin-top: 1em" class="card">
                                     <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="files">Files</label>
+                                            <input type="file" class="form-control-file" name="files[]" multiple value required>
+                                            <div class="mt-2">
+                                                @if (!empty($buildings) && $buildings->files)
+                                                    @foreach (json_decode($buildings->files) as $file)
+                                                        <i class="fa {{ pathinfo($file, PATHINFO_EXTENSION) == 'pdf' ? 'fa-file-pdf' : 'fa-file-word' }}"></i>
+                                                        <a href="{{ asset('storage/' . $file) }}" target="_blank">{{ $file }}</a>
+                                                    @endforeach
+                                                @else
+                                                    <p>No files available.</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 1em" class="card">
+                                    <div class="card-body">
                                         <div class="form-group mt-3">
                                             <label>Building Location Coordinates</label>
                                             <div class="row">
                                                 <div class="col-5">
                                                     <label for="latitude" class="form-label">Latitude</label>
-                                                    <input type="text" class="form-control" name="lati" id="latitude"
-                                                        value="{{ $buildings->lati }}" placeholder="Enter latitude"
-                                                        required readonly>
+                                                    <input type="text" class="form-control" name="lati"
+                                                        id="latitude" value="{{ $buildings->lati }}"
+                                                        placeholder="Enter latitude" required readonly>
                                                 </div>
                                                 <div class="col-6">
                                                     <label for="longitude" class="form-label">Longitude</label>

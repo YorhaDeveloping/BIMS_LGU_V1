@@ -25,6 +25,7 @@
                         <thead class="bg-primary text-white">
                             <tr>
                                 <th scope="col">Building Name</th>
+                                <th scope="col">Building Location</th>
                                 <th scope="col">Maintenance Type</th>
                                 <th scope="col">Priority</th>
                                 <th scope="col">Submission Date</th>
@@ -36,6 +37,7 @@
                             @foreach ($maintenances as $maintenance)
                                 <tr>
                                     <td>{{ $maintenance->buildings_name }}</td>
+                                    <td>{{ $maintenance->building_location }}</td>
                                     <td>{{ Str::limit($maintenance->maintenance_type, 20) }}</td>
                                     <td>{{ $maintenance->priority }}</td>
                                     <td>{{ $maintenance->submittion_date }}</td>

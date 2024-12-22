@@ -23,11 +23,13 @@ class building extends Model
         'building_location',
         'barangay',
         'building_in_charge',
+        'position',
         'date_of_completion',
         'date_constructed',
         'lati',
         'longti',
         'image',
+        'files',
         'is_archived',
     ];
 }

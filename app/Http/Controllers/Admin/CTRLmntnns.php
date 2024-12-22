@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Maintenance;
 use App\Models\Admin\building;
+use App\Models\Users\CompletionForm;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 
@@ -43,7 +44,7 @@ class CTRLmntnns extends Controller
             abort(404, 'Invalid or tampered ID.');
         }
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -78,5 +79,17 @@ class CTRLmntnns extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function showCompletionForm($encryptedId)
+    {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+            $maintenance = Maintenance::findOrFail($id);
+            $completionForms = CompletionForm::where('maint_id', $maintenance->id)->get();
+            return view('admin.maintenance.showcompletion', compact('maintenance', 'completionForms'));
+        } catch (\Exception $e) {
+            abort(404, 'Completion Form not found.');
+        }
     }
 }

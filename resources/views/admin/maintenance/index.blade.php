@@ -32,7 +32,7 @@
                                 <tr>
                                     <th scope="col">Building Name</th>
 
-                                    <th scope="col">Submitter</th>
+                                    <th scope="col">Requesting Party / Requestee</th>
 
                                     <th scope="col">Request Status</th>
                                     <th scope="col">Actions</th>

@@ -57,8 +57,19 @@
                                     <td class="d-flex">
                                         <a href="{{ route('users.maintenance.show', Crypt::encryptString($maintenance->id)) }}"
                                             class="btn btn-info btn-sm me-2">View</a>
-                                        <a href="{{ route('users.maintenance.edit', Crypt::encryptString($maintenance->id)) }}"
-                                            class="btn btn-warning btn-sm me-2">Edit</a>
+                                        @if ($maintenance->request_status == 'Pending')
+                                            <a href="{{ route('users.maintenance.edit', Crypt::encryptString($maintenance->id)) }}"
+                                                class="btn btn-warning btn-sm me-2">Edit</a>
+                                        @else
+                                            <button type="button" class="btn btn-warning btn-sm me-2" disabled>Edit</button>
+                                        @endif
+
+                                            @if ($maintenance->completionForms->isEmpty())
+                                            <a href="{{ route('users.maintenance.completionForm', Crypt::encryptString($maintenance->id)) }}" class="btn btn-success btn-sm me-1">Completion Form</a>
+                                        @else
+                                            <button type="button" class="btn btn-success btn-sm me-1" disabled>Completion Form</button>
+                                        @endif
+
                                         @if ($maintenance->request_status !== 'Approved / Ongoing')
                                             <form action="{{ route('users.maintenance.destroy', $maintenance->id) }}"
                                                 method="POST" class="d-inline">

@@ -25,7 +25,7 @@
                     </div>
                     <div class="relative flex items-center justify-center">
                         <div class="w-full max-w-xl xl:w-full xl:mx-auto xl:pr-24 xl:max-w-xl">
-                            <h3 class="text-4xl font-bold text-white">LGU APARRI BUILDING INFRASTRUCTURE MANAGEMENT SYSTEM (BIMS)</h3>
+                            <h3 class="text-4xl font-bold text-white">LGU APARRI BUILDING INFORMATION MANAGEMENT SYSTEM (BIMS)</h3>
                         </div>
                     </div>
                 </div>

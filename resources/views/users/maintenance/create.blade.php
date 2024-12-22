@@ -28,6 +28,51 @@
                                             @endforeach
                                         </select><br>
 
+                                        <label for="building_location">Building Located (BARANGAY):</label>
+                                                    <select name="building_location" class="form-control" required>
+                                                        <option value="">Select Location</option>
+                                                        <option value="Backiling">Backiling</option>
+                                                        <option value="Bangag">Bangag</option>
+                                                        <option value="Binalan">Binalan</option>
+                                                        <option value="Bisagu">Bisagu</option>
+                                                        <option value="Bukig">Bukig</option>
+                                                        <option value="Bulala Norte">Bulala Norte</option>
+                                                        <option value="Bulala Sur">Bulala Sur</option>
+                                                        <option value="Caagaman">Caagaman</option>
+                                                        <option value="Centro 1">Centro 1</option>
+                                                        <option value="Centro 10">Centro 10</option>
+                                                        <option value="Centro 11">Centro 11</option>
+                                                        <option value="Centro 12">Centro 12</option>
+                                                        <option value="Centro 13">Centro 13</option>
+                                                        <option value="Centro 14">Centro 14</option>
+                                                        <option value="Centro 15">Centro 15</option>
+                                                        <option value="Centro 2">Centro 2</option>
+                                                        <option value="Centro 3">Centro 3</option>
+                                                        <option value="Centro 4">Centro 4</option>
+                                                        <option value="Centro 5">Centro 5</option>
+                                                        <option value="Centro 6">Centro 6</option>
+                                                        <option value="Centro 7">Centro 7</option>
+                                                        <option value="Centro 8">Centro 8</option>
+                                                        <option value="Centro 9">Centro 9</option>
+                                                        <option value="Dodan">Dodan</option>
+                                                        <option value="Gaddang">Gaddang</option>
+                                                        <option value="Linao">Linao</option>
+                                                        <option value="Macanaya">Macanaya</option>
+                                                        <option value="Mabanguc">Mabanguc</option>
+                                                        <option value="Maura">Maura</option>
+                                                        <option value="Minanga">Minanga</option>
+                                                        <option value="Navagan">Navagan</option>
+                                                        <option value="Paruddun Norte">Paruddun Norte</option>
+                                                        <option value="Paruddun Sur">Paruddun Sur</option>
+                                                        <option value="Plaza">Plaza</option>
+                                                        <option value="Punta">Punta</option>
+                                                        <option value="San Antonio">San Antonio</option>
+                                                        <option value="Sanja">Sanja</option>
+                                                        <option value="Tallungan">Tallungan</option>
+                                                        <option value="Toran">Toran</option>
+                                                        <option value="Zinarag">Zinarag</option>
+                                                    </select><br>
+
                                         <label for="building_type">Building Type:</label>
                                         <select class="form-control" id="building_type" name="building_type" required>
                                             <option value="gymnasium">Gymnasium</option>
@@ -174,8 +219,8 @@
                                             <option value="urgent">Urgent</option>
                                         </select><br>
 
-                                        <label for="attachments">Attachments (Optional):</label>
-                                        <input type="file" class="form-control-file" id="attachments" name="attachments[]" multiple>
+                                        <label for="attachments">Attachments:</label>
+                                        <input type="file" class="form-control-file" id="attachments" name="attachments[]" multiple required>
 
                                     </div>
 
@@ -186,13 +231,13 @@
                                         <br>
                                         <label for="submitter_name">Name:</label>
                                         <input type="text" class="form-control" id="submitter_name"
-                                            name="submitter_name" value="{{ Auth::user()->name }}"
-                                            placeholder="Enter your name" required readonly><br>
+                                            name="submitter_name"
+                                            placeholder="Enter your name" required><br>
 
                                         <label for="submitter_email">Email Address:</label>
                                         <input type="email" class="form-control" id="submitter_email"
-                                            name="submitter_email" value="{{ Auth::user()->email }}"
-                                            placeholder="Enter your email" required readonly><br>
+                                            name="submitter_email"
+                                            placeholder="Enter your email" required><br>
 
                                         <label for="submitter_phone">Phone Number:</label>
                                         <input type="tel" class="form-control" id="submitter_phone"
@@ -216,4 +261,6 @@
         </div>
     </div>
 @endsection
+
+
 

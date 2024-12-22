@@ -26,12 +26,18 @@ class ReportsExport implements FromCollection, WithStyles
         return Maintenance::all()->map(function ($item) {
             return [
                 'buildings_name' => $item->buildings_name,
+                'building_location' => $item->building_location,
                 'maintenance_type' => $item->maintenance_type,
                 'issue_description' => $item->issue_description,
                 'priority' => $item->priority,
+                'attachments' => $item->attachments,
+                'submitter_name' => $item->submitter_name,
+                'submitter_email' => $item->submitter_email,
+                'submitter_phone' => $item->submitter_phone,
                 'submittion_date' => $item->submittion_date,
-                'last_renovation_date' => $item->last_renovation_date,
+                'status' => $item->status,
                 'request_status' => $item->request_status,
+                'last_renovation_date' => $item->last_renovation_date,
             ];
         });
     }

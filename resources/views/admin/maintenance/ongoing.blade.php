@@ -46,12 +46,13 @@
                                         <td>{{ $maintenance->request_status }}</td>
                                         <td>
                                             <a href="{{ route('admin.maintenance.show', Crypt::encryptString($maintenance->id)) }}" class="btn btn-info btn-sm me-1">View</a>
-
+                                            <a href="{{ route('admin.maintenance.showcompletion', Crypt::encryptString($maintenance->id)) }}" class="btn btn-info btn-sm me-1">View Completion Form</a>
                                             <form action="{{ route('admin.maintenance.complete', $maintenance->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 <button type="submit" class="btn btn-success btn-sm"
                                                     onclick="return confirm('Are you sure that the Maintenance Request is COMPLETED?');">Completed</button>
                                             </form>
+
                                         </td>
                                     </tr>
                                 @endforeach

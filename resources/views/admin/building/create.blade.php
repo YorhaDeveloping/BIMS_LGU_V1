@@ -38,8 +38,12 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="building_structure">Building Structure</label>
-                                                    <input type="text" name="building_structure" class="form-control"
-                                                        required placeholder="Enter the Building Structure">
+                                                    <select name="building_structure" class="form-control" required>
+                                                        <option value="">Select Building Structure</option>
+                                                        <option value="Concrete">Concrete</option>
+                                                        <option value="Wood">Wood</option>
+                                                        <option value="Concrete and Wood">Concrete and Wood</option>
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="building_type">Building Usage</label>
@@ -95,46 +99,46 @@
                                                     <label for="barangay">Barangay</label>
                                                     <select name="barangay" class="form-control" required>
                                                         <option value="">Select Barangay</option>
-                                                        <option value="Brgy. Backiling">Brgy. Backiling</option>
-                                                        <option value="Brgy. Bangag">Brgy. Bangag</option>
-                                                        <option value="Brgy. Binalan">Brgy. Binalan</option>
-                                                        <option value="Brgy. Bisagu">Brgy. Bisagu</option>
-                                                        <option value="Brgy. Bukig">Brgy. Bukig</option>
-                                                        <option value="Brgy. Bulala Norte">Brgy. Bulala Norte</option>
-                                                        <option value="Brgy. Bulala Sur">Brgy. Bulala Sur</option>
-                                                        <option value="Brgy. Caagaman">Brgy. Caagaman</option>
-                                                        <option value="Brgy. Centro 1">Brgy. Centro 1</option>
-                                                        <option value="Brgy. Centro 10">Brgy. Centro 10</option>
-                                                        <option value="Brgy. Centro 11">Brgy. Centro 11</option>
-                                                        <option value="Brgy. Centro 12">Brgy. Centro 12</option>
-                                                        <option value="Brgy. Centro 13">Brgy. Centro 13</option>
-                                                        <option value="Brgy. Centro 14">Brgy. Centro 14</option>
-                                                        <option value="Brgy. Centro 15">Brgy. Centro 15</option>
-                                                        <option value="Brgy. Centro 2">Brgy. Centro 2</option>
-                                                        <option value="Brgy. Centro 3">Brgy. Centro 3</option>
-                                                        <option value="Brgy. Centro 4">Brgy. Centro 4</option>
-                                                        <option value="Brgy. Centro 5">Brgy. Centro 5</option>
-                                                        <option value="Brgy. Centro 6">Brgy. Centro 6</option>
-                                                        <option value="Brgy. Centro 7">Brgy. Centro 7</option>
-                                                        <option value="Brgy. Centro 8">Brgy. Centro 8</option>
-                                                        <option value="Brgy. Centro 9">Brgy. Centro 9</option>
-                                                        <option value="Brgy. Dodan">Brgy. Dodan</option>
-                                                        <option value="Brgy. Gaddang">Brgy. Gaddang</option>
-                                                        <option value="Brgy. Linao">Brgy. Linao</option>
-                                                        <option value="Brgy. Macanaya">Brgy. Macanaya</option>
-                                                        <option value="Brgy. Mabanguc">Brgy. Mabanguc</option>
-                                                        <option value="Brgy. Maura">Brgy. Maura</option>
-                                                        <option value="Brgy. Minanga">Brgy. Minanga</option>
-                                                        <option value="Brgy. Navagan">Brgy. Navagan</option>
-                                                        <option value="Brgy. Paruddun Norte">Brgy. Paruddun Norte</option>
-                                                        <option value="Brgy. Paruddun Sur">Brgy. Paruddun Sur</option>
-                                                        <option value="Brgy. Plaza">Brgy. Plaza</option>
-                                                        <option value="Brgy. Punta">Brgy. Punta</option>
-                                                        <option value="Brgy. San Antonio">Brgy. San Antonio</option>
-                                                        <option value="Brgy. Sanja">Brgy. Sanja</option>
-                                                        <option value="Brgy. Tallungan">Brgy. Tallungan</option>
-                                                        <option value="Brgy. Toran">Brgy. Toran</option>
-                                                        <option value="Brgy. Zinarag">Brgy. Zinarag</option>
+                                                        <option value="Backiling">Backiling</option>
+                                                        <option value="Bangag">Bangag</option>
+                                                        <option value="Binalan">Binalan</option>
+                                                        <option value="Bisagu">Bisagu</option>
+                                                        <option value="Bukig">Bukig</option>
+                                                        <option value="Bulala Norte">Bulala Norte</option>
+                                                        <option value="Bulala Sur">Bulala Sur</option>
+                                                        <option value="Caagaman">Caagaman</option>
+                                                        <option value="Centro 1">Centro 1</option>
+                                                        <option value="Centro 10">Centro 10</option>
+                                                        <option value="Centro 11">Centro 11</option>
+                                                        <option value="Centro 12">Centro 12</option>
+                                                        <option value="Centro 13">Centro 13</option>
+                                                        <option value="Centro 14">Centro 14</option>
+                                                        <option value="Centro 15">Centro 15</option>
+                                                        <option value="Centro 2">Centro 2</option>
+                                                        <option value="Centro 3">Centro 3</option>
+                                                        <option value="Centro 4">Centro 4</option>
+                                                        <option value="Centro 5">Centro 5</option>
+                                                        <option value="Centro 6">Centro 6</option>
+                                                        <option value="Centro 7">Centro 7</option>
+                                                        <option value="Centro 8">Centro 8</option>
+                                                        <option value="Centro 9">Centro 9</option>
+                                                        <option value="Dodan">Dodan</option>
+                                                        <option value="Gaddang">Gaddang</option>
+                                                        <option value="Linao">Linao</option>
+                                                        <option value="Macanaya">Macanaya</option>
+                                                        <option value="Mabanguc">Mabanguc</option>
+                                                        <option value="Maura">Maura</option>
+                                                        <option value="Minanga">Minanga</option>
+                                                        <option value="Navagan">Navagan</option>
+                                                        <option value="Paruddun Norte">Paruddun Norte</option>
+                                                        <option value="Paruddun Sur">Paruddun Sur</option>
+                                                        <option value="Plaza">Plaza</option>
+                                                        <option value="Punta">Punta</option>
+                                                        <option value="San Antonio">San Antonio</option>
+                                                        <option value="Sanja">Sanja</option>
+                                                        <option value="Tallungan">Tallungan</option>
+                                                        <option value="Toran">Toran</option>
+                                                        <option value="Zinarag">Zinarag</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
@@ -146,6 +150,11 @@
                                                     <label for="building_in_charge">Building In-Charge</label>
                                                     <input type="text" name="building_in_charge" class="form-control"
                                                         required placeholder="Enter the Building In-Charge">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="position">Position</label>
+                                                    <input type="text" name="position" class="form-control"
+                                                        required placeholder="Enter Position of Building In-Charge">
                                                 </div>
                                                 {{-- <div class="form-group">
                                                     <label for="date_of_completion">Expected Date of Completion</label>
@@ -161,7 +170,16 @@
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="image">Image</label>
-                                            <input type="file" class="form-control-file" name="image" accept="image/*">
+                                            <input type="file" class="form-control-file" name="image" accept="image/*" multiple required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 1em" class="card">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="files">Files</label>
+                                            <input type="file" class="form-control-file" name="files[]" multiple required>
                                         </div>
                                     </div>
                                 </div>
@@ -282,3 +300,4 @@
         </div>
     @endcan
 @endsection
+

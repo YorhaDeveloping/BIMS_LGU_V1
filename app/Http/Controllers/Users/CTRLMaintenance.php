@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Maintenance;
 use App\Models\Admin\building;
+use App\Models\Users\CompletionForm;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
@@ -43,10 +44,11 @@ class CTRLMaintenance extends Controller
 
         $maintenanceData = [
             'buildings_name' => $request->buildings_name,
+            'building_location' => $request->building_location,
             'maintenance_type' => implode(',', $request->maintenance_type), // Store as comma-separated string
             'issue_description' => $request->issue_description,
             'priority' => $request->priority,
-            'submitter_name' => 'Requesting Party / Requestee',
+            'submitter_name' => $request->submitter_name,
             'submitter_email' => $request->submitter_email,
             'submitter_phone' => $request->submitter_phone,
             'submittion_date' => $request->submittion_date,
@@ -167,4 +169,56 @@ public function destroy(string $id)
 
     return redirect()->route('users.maintenance.index')->with('success', 'Maintenance request deleted successfully.');
 }
+
+    /**
+     * Display the form for completing the specified maintenance request.
+     */
+       public function completionForm(string $encryptedId)
+    {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+            $maintenance = Maintenance::findOrFail($id);
+            $nextControlNo = $this->generateNextControlNo(); // Replace with your logic to get the next control number
+            return view('users.maintenance.completionForm', compact('maintenance', 'nextControlNo'));
+        } catch (\Exception $e) {
+            abort(404, 'Invalid or tampered ID.');
+        }
+    }
+
+    private function generateNextControlNo()
+    {
+        // Your logic to generate the next control number
+        return 'GSO-' . str_pad(Maintenance::max('id') + 1, 6, '0', STR_PAD_LEFT);
+    }
+
+    public function storeCompletionForm(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'requesting_office' => 'required|string|max:255',
+            'control_no' => 'required|string|max:255',
+            'date_requested' => 'required|date',
+            'service_requested' => 'required|string',
+            'location' => 'required|string|max:255',
+        ]);
+
+        // Store the completion form data
+        $completionData = $request->only([
+            'name',
+            'requesting_office',
+            'control_no',
+            'date_requested',
+            'service_requested',
+            'location',
+        ]);
+
+        // Add the maint_id to the completion data
+        $completionData['maint_id'] = $request->input('maint_id');
+
+        // Assuming you have a CompletionForm model to store the data
+        $completionForm = new CompletionForm($completionData);
+        $completionForm->save();
+
+        return redirect()->route('users.maintenance.index')->with('success', 'Completion form submitted successfully.');
+    }
 }

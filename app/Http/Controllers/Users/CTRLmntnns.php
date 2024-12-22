@@ -44,7 +44,7 @@ class CTRLmntnns extends Controller
             'maintenance_type' => $request->maintenance_type,
             'issue_description' => $request->issue_description,
             'priority' => $request->priority,
-            'submitter_name' => 'Requesting Party / Requestee',
+            'submitter_name' => $request->submitter_name,
             'submitter_email' => $request->submitter_email,
             'submitter_phone' => $request->submitter_phone,
             'submittion_date' => $request->submittion_date,
