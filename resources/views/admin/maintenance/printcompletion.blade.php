@@ -49,6 +49,16 @@
                 color: gray;
                 margin-top: 20px;
             }
+
+            .page-break {
+                display: block;
+                page-break-before: always;
+            }
+
+            .copy {
+                width: 100%;
+                margin-bottom: 20px;
+            }
         }
 
         body {
@@ -82,55 +92,112 @@
             border: 1px solid black;
             padding: 10px;
         }
+
+        .copy {
+            margin-bottom: 30px; /* Add space between copies */
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="header">
-            <img src="{{ asset('storage/logo/lgu_logo.png') }}" alt="Logo" width="100" height="100">
-            <h5>REPUBLIC OF THE PHILIPPINES</h5>
-            <h5>Local Government Unit of Aparri</h5>
-            <h5>Aparri Cagayan</h5>
-            <div class="f-gso">
-                <h1>F-GSO-APA-81701</h1>
-            </div>
-        </div>
-        <button style="margin-top: 10px;" class="btn btn-danger no-print" onclick="window.print()">Print</button>
-        <br>
-        <hr style="border-top: 2px solid black;">
-        <h4 class="text-center">GENERAL SERVICES OFFICE</h4>
-        <hr style="border-top: 2px solid black;">
-        <div class="mt-4">
-            <div class="row">
-                <div class="col-md-6">
-                    <p><strong>Name:</strong> {{ $completionForm->name }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Control No:</strong> {{ $completionForm->control_no }}</p>
+        <!-- First Copy -->
+        <div class="copy">
+            <div class="header">
+                <img src="{{ asset('storage/logo/lgu_logo.png') }}" alt="Logo" width="100" height="100">
+                <h5>Republic of the Philippines</h5>
+                <h5>LOCAL GOVERNMENT UNIT OF APARRI</h5>
+                <h5>Aparri Cagayan</h5>
+                <div class="f-gso">
+                    <h1>F-GSO-APA-81701</h1>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <p><strong>Requesting Office:</strong> {{ $completionForm->requesting_office }}</p>
+            <button style="margin-top: 10px;" class="btn btn-danger no-print" onclick="window.print()">Print</button>
+            <br>
+            <hr style="border-top: 2px solid black;">
+            <h4 class="text-center">GENERAL SERVICES OFFICE</h4>
+            <hr style="border-top: 2px solid black;">
+            <h6 class="text-center">SERVICE JOB ORDER COMPLETION FORM</h6>
+            <div class="mt-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Name:</strong> {{ $completionForm->name }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Control No:</strong> {{ $completionForm->control_no }}</p>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <p><strong>Date Requested:</strong> {{ $completionForm->date_requested }}</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Requesting Office:</strong> {{ $completionForm->requesting_office }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Date Requested:</strong> {{ $completionForm->date_requested }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Service Requested:</strong> {{ str_replace(',', ', ', $completionForm->service_requested) }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Location:</strong> {{ $completionForm->location }}</p>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <p><strong>Service Requested:</strong> {{ str_replace(',', ', ', $completionForm->service_requested) }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Location:</strong> {{ $completionForm->location }}</p>
-                </div>
-            </div>
-        </div>
 
-        <div class="footer">
-            <p>This is a system-generated report.</p>
-            <p>Generated on: {{ \Carbon\Carbon::now()->format('Y-m-d') }}</p>
+            <div class="footer">
+                <p>This is a system-generated form.</p>
+                <p>Generated on: {{ \Carbon\Carbon::now()->format('Y-m-d') }}</p>
+            </div>
+        </div>
+<br><br><br>
+        <!-- Second Copy -->
+        <div class="copy">
+            <div class="header">
+                <img src="{{ asset('storage/logo/lgu_logo.png') }}" alt="Logo" width="100" height="100">
+                <h5>Republic of the Philippines</h5>
+                <h5>LOCAL GOVERNMENT UNIT OF APARRI</h5>
+                <h5>Aparri Cagayan</h5>
+                <div class="f-gso">
+                    <h1>F-GSO-APA-81701</h1>
+                </div>
+            </div>
+            <br>
+            <hr style="border-top: 2px solid black;">
+            <h4 class="text-center">GENERAL SERVICES OFFICE</h4>
+            <hr style="border-top: 2px solid black;">
+            <h6 class="text-center">SERVICE JOB ORDER COMPLETION FORM</h6>
+            <div class="mt-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Name:</strong> {{ $completionForm->name }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Control No:</strong> {{ $completionForm->control_no }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Requesting Office:</strong> {{ $completionForm->requesting_office }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Date Requested:</strong> {{ $completionForm->date_requested }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Service Requested:</strong> {{ str_replace(',', ', ', $completionForm->service_requested) }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Location:</strong> {{ $completionForm->location }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>This is a system-generated form.</p>
+                <p>Generated on: {{ \Carbon\Carbon::now()->format('Y-m-d') }}</p>
+            </div>
         </div>
     </div>
 </body>
