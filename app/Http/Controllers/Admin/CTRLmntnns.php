@@ -45,7 +45,6 @@ class CTRLmntnns extends Controller
         }
     }
 
-
     /**
      * Update the specified resource in storage.
      */
@@ -88,6 +87,25 @@ class CTRLmntnns extends Controller
             $maintenance = Maintenance::findOrFail($id);
             $completionForms = CompletionForm::where('maint_id', $maintenance->id)->get();
             return view('admin.maintenance.showcompletion', compact('maintenance', 'completionForms'));
+        } catch (\Exception $e) {
+            abort(404, 'Completion Form not found.');
+        }
+    }
+
+    public function printCompletionForm($encryptedId)
+    {
+        try {
+            // Decrypt the CompletionForm ID
+            $id = Crypt::decryptString($encryptedId);
+
+            // Find the CompletionForm record
+            $completionForm = CompletionForm::findOrFail($id);
+
+            // Find the related Maintenance record
+            $maintenance = Maintenance::findOrFail($completionForm->maint_id);
+
+            // Return the view with the data
+            return view('admin.maintenance.printcompletion', compact('maintenance', 'completionForm'));
         } catch (\Exception $e) {
             abort(404, 'Completion Form not found.');
         }

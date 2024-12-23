@@ -317,7 +317,7 @@ class CTRLbuilding extends Controller
 
        public function printAll(Request $request)
     {
-        $query = Building::query();
+        $query = Building::query()->where('is_archived', 0);
 
         // Apply the search filter if provided
         if ($request->filled('search')) {

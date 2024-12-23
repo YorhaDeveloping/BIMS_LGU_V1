@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <label for="service_requested">Service Requested</label>
-                        <textarea name="service_requested" id="service_requested" class="form-control" required>{{ implode("\n", explode(',', $maintenance->maintenance_type)) }}</textarea>
+                        <textarea name="service_requested" id="service_requested" class="form-control" required>{{ ($maintenance->maintenance_type) }}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="location">Location</label>

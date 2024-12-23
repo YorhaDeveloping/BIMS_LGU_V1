@@ -31,8 +31,9 @@
                     <label for="location">Location</label>
                     <input type="text" id="location" class="form-control" value="{{ $completionForms->first()->location ?? '' }}" readonly>
                 </div>
+                <br>
+                <a href="{{ route('admin.maintenance.print', Crypt::encryptString($completionForms->first()->id)) }}" class="btn btn-primary" target="_blank">Print Completion Form</a>
             </div>
         </div>
     </div>
 @endsection
-

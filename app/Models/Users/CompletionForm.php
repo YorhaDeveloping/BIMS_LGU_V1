@@ -5,6 +5,8 @@ namespace App\Models\Users;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Admin\Maintenance;
+
 class CompletionForm extends Model
 {
     protected $fillable = [
@@ -17,5 +19,8 @@ class CompletionForm extends Model
         'location',
     ];
 
-    use HasFactory;
+    public function maintenance()
+    {
+        return $this->belongsTo(Maintenance::class, 'maint_id');
+    }
 }

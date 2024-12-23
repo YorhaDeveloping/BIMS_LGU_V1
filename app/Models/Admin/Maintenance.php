@@ -13,6 +13,6 @@ class Maintenance extends Model
 
     public function completionForms()
     {
-        return $this->hasMany(CompletionForm::class, 'maint_id', 'id');
+        return $this->hasMany(CompletionForm::class, 'maint_id');
     }
 }

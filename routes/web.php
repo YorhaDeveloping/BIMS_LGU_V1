@@ -83,6 +83,7 @@ Route::namespace('App\Http\Controllers\Admin')
         Route::post('/maintenance/{id}/reject', [CTRLmntnns::class, 'reject'])->name('maintenance.reject');
         Route::post('/building/{id}/archive', [CTRLbuilding::class, 'archive'])->name('building.archive');
         Route::post('/building/{id}/unarchive', [CTRLbuilding::class, 'unarchive'])->name('building.unarchive');
+        Route::get('/admin/maintenance/print/{id}', [CTRLmntnns::class, 'printCompletionForm'])->name('maintenance.print');
 
         Route::get('/building/{id}', [CTRLbuilding::class, 'show'])->name('building.show');
 
