@@ -328,71 +328,61 @@
                                     </script>
                                 </div>
 
-                                <div class="calendar-container"
-                                    style="display: flex; justify-content: space-between; gap: 10px; margin-top: 50px;">
+                                <div class="calendar-container" style="display: flex; justify-content: space-between; gap: 10px; margin-top: 50px;">
                                     <!-- Column for Calendar -->
                                     <div class="calendar" style="background-color: #f9f9f9; padding: 20px; width: 65%;">
-                                        <div class="header"
-                                            style="display: flex; justify-content: space-between; align-items: center;">
-                                            <button id="prev"
-                                                style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 10px;">Previous</button>
+                                        <div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+                                            <button id="prev" style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 10px;">Previous</button>
                                             <h2 id="monthYear" style="font-size: 20px; font-weight: bold; color: #333;"></h2>
-                                            <button id="next"
-                                                style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 10px;">Next</button>
+                                            <button id="next" style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 10px;">Next</button>
                                         </div>
-                                        <div class="days"
-                                            style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                                        <div class="days" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
                                             @foreach (['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $dayName)
-                                                <div class="day-name"
-                                                    style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
-                                                    {{ $dayName }}</div>
+                                                <div class="day-name" style="font-weight: bold; width: calc(100% / 7); text-align: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0;">
+                                                    {{ $dayName }}
+                                                </div>
                                             @endforeach
                                             <div id="days" style="display: flex; flex-wrap: wrap;"></div>
                                         </div>
                                     </div>
 
                                     <!-- Column for Event Details -->
-                                    <div id="eventDetails"
-                                        style="display: none; background-color: #fff; border: 1px solid #ddd; padding: 10px; width: 30%;">
+                                    <div id="eventDetails" style="display: none; background-color: #fff; border: 1px solid #ddd; padding: 10px; width: 30%; overflow-y: auto; max-height: 400px;">
                                         <h3><strong>Event Details</strong></h3>
-                                        <div id="eventContent"></div>
+                                        <div id="eventContent" style="display: flex; flex-direction: column; gap: 10px;"></div>
                                     </div>
                                 </div>
 
                                 @php
-                                    $maintenanceStatuses = \App\Models\Admin\Maintenance::where(
-                                        'request_status',
-                                        'Approved / Ongoing',
-                                    )->get();
-                                    $maintenances = \App\Models\Admin\Maintenance::where(
-                                        'request_status',
-                                        'Approved / Ongoing',
-                                    )->get();
+                                    $maintenanceStatuses = \App\Models\Admin\Maintenance::where('request_status', 'Approved / Ongoing')->get();
+                                    $maintenances = \App\Models\Admin\Maintenance::where('request_status', 'Approved / Ongoing')->get();
                                 @endphp
 
                                 <script>
                                     let today = new Date();
-                                    let day = today.getDate();
-                                    let month = today.getMonth() + 1; // 1-12
-                                    let year = today.getFullYear();
-                                    let daysInMonth = new Date(year, month, 0).getDate();
+                                    let currentMonth = today.getMonth();
+                                    let currentYear = today.getFullYear();
 
                                     function updateMonthYear() {
-                                        let monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
-                                            "October", "November", "December"
-                                        ][month - 1];
-                                        document.getElementById("monthYear").innerHTML = `${monthName} ${year}`;
+                                        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                                        document.getElementById("monthYear").innerHTML = `${monthNames[currentMonth]} ${currentYear}`;
                                     }
 
                                     function renderCalendar() {
-                                        daysInMonth = new Date(year, month, 0).getDate();
-                                        let days = document.getElementById("days");
-                                        while (days.firstChild) {
-                                            days.removeChild(days.firstChild);
+                                        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                                        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+                                        const daysContainer = document.getElementById("days");
+                                        daysContainer.innerHTML = '';
+
+                                        for (let i = 0; i < firstDay; i++) {
+                                            const emptyCell = document.createElement("div");
+                                            emptyCell.style.width = "calc(100% / 7)";
+                                            emptyCell.style.padding = "10px";
+                                            daysContainer.appendChild(emptyCell);
                                         }
 
                                         for (let i = 1; i <= daysInMonth; i++) {
-                                            let dayElement = document.createElement("div");
+                                            const dayElement = document.createElement("div");
                                             dayElement.classList.add("day");
                                             dayElement.style.width = "calc(100% / 7)";
                                             dayElement.style.textAlign = "center";
@@ -401,13 +391,13 @@
                                             dayElement.style.margin = "5px 0";
                                             dayElement.innerHTML = i;
 
-                                            if (i === day && month === today.getMonth() + 1 && year === today.getFullYear()) {
+                                            if (i === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
                                                 dayElement.style.backgroundColor = "#4CAF50";
                                                 dayElement.style.color = "white";
                                             }
 
-                                            let date = year + '-' + String(month).padStart(2, '0') + '-' + String(i).padStart(2, '0');
-                                            let events = @json($maintenanceStatuses).filter(event => event.submittion_date === date);
+                                            const date = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                                            const events = @json($maintenanceStatuses).filter(event => event.submittion_date === date);
 
                                             if (events.length > 0) {
                                                 dayElement.style.backgroundColor = "#ffc107";
@@ -425,32 +415,31 @@
                                                         @endforeach
                                                     `).join("");
                                                     document.getElementById("eventContent").innerHTML = eventContent;
-                                                    const eventDetailsDiv = document.getElementById("eventDetails");
-                                                    eventDetailsDiv.style.display = eventDetailsDiv.style.display === "none" ? "block" : "none";
+                                                    document.getElementById("eventDetails").style.display = "block";
                                                 });
                                             }
 
-                                            days.appendChild(dayElement);
+                                            daysContainer.appendChild(dayElement);
                                         }
                                     }
 
                                     document.getElementById("prev").addEventListener("click", function() {
-                                        if (month > 1) {
-                                            month--;
+                                        if (currentMonth > 0) {
+                                            currentMonth--;
                                         } else {
-                                            month = 12;
-                                            year--;
+                                            currentMonth = 11;
+                                            currentYear--;
                                         }
                                         updateMonthYear();
                                         renderCalendar();
                                     });
 
                                     document.getElementById("next").addEventListener("click", function() {
-                                        if (month < 12) {
-                                            month++;
+                                        if (currentMonth < 11) {
+                                            currentMonth++;
                                         } else {
-                                            month = 1;
-                                            year++;
+                                            currentMonth = 0;
+                                            currentYear++;
                                         }
                                         updateMonthYear();
                                         renderCalendar();
