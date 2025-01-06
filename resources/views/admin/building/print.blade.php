@@ -86,6 +86,8 @@
             <h5>REPUBLIC OF THE PHILIPPINES</h5>
             <h5>Local Government Unit of Aparri</h5>
             <h5>Aparri Cagayan</h5>
+            <br>
+            <h5>GENERAL SERVICES OFFICE</h5>
             {{-- <div class="f-gso">
                 <h1>F-GSO-APA-81701</h1>
             </div> --}}
