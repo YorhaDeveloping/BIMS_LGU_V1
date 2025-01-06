@@ -33,6 +33,7 @@
                 </div>
                 <br>
                 <a href="{{ route('admin.maintenance.print', Crypt::encryptString($completionForms->first()->id)) }}" class="btn btn-primary" target="_blank">Print Completion Form</a>
+                <a href="{{ route('admin.maintenance.ongoing') }}" class="btn btn-danger ml-2">Back</a>
             </div>
         </div>
     </div>
