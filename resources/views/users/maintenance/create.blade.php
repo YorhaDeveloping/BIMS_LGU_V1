@@ -1,23 +1,99 @@
 @extends('layouts.Users.app')
 
 @section('content')
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-                    <form id="maintenanceForm" method="POST" action="{{ route('users.maintenance.store') }}" enctype="multipart/form-data">
-                        @csrf
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        .section-header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .form-group label {
+            font-weight: 500;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+        .form-control, .form-select {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 10px 15px;
+            transition: all 0.3s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.25);
+        }
+        .form-check-label {
+            margin-left: 5px;
+            color: #495057;
+        }
+        .form-check-input {
+            margin-top: 0.3rem;
+        }
+        .btn-submit {
+            background-color: #2c3e50;
+            border: none;
+            padding: 12px 25px;
+            font-weight: 500;
+            transition: all 0.3s;
+            color: white;
+        }
+        .btn-submit:hover {
+            background-color: #1a252f;
+            transform: translateY(-2px);
+            color: white;
+        }
+        .checkbox-group {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        .checkbox-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .checkbox-item:last-child {
+            border-bottom: none;
+        }
+    </style>
 
-                        <div class="form-group">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="text-center">
-                                            <h5 class="card p-2 border-black">BUILDING INFORMATION</h5>
-                                        </div>
-                                        <br>
+    <div class="py-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="form-container">
+                        <h3 class="text-center mb-4" style="color: #2c3e50;">Maintenance Request Form</h3>
+
+                        <form id="maintenanceForm" method="POST" action="{{ route('users.maintenance.store') }}" enctype="multipart/form-data">
+                            @csrf
+
+                            <div class="row">
+                                <!-- Building Information Column -->
+                                <div class="col-md-4">
+                                    <div class="section-header">
+                                        <i class="fas fa-building mr-2"></i> BUILDING INFORMATION
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="building_name">Building Name:</label>
                                         <select class="form-control" id="buildings_name" name="buildings_name" required>
                                             <option value="">Select Building Name</option>
@@ -25,9 +101,11 @@
                                                 <option value="{{ $building->building_name }}">
                                                     {{ $building->building_name }}</option>
                                             @endforeach
-                                        </select><br>
+                                        </select>
+                                    </div>
 
-                                        <label for="building_location">Building Located (BARANGAY):</label>
+                                    <div class="form-group">
+                                        <label for="building_location">Building Location (Barangay):</label>
                                         <select name="building_location" class="form-control" required>
                                             <option value="">Select Location</option>
                                             <option value="Backiling">Backiling</option>
@@ -70,8 +148,10 @@
                                             <option value="Tallungan">Tallungan</option>
                                             <option value="Toran">Toran</option>
                                             <option value="Zinarag">Zinarag</option>
-                                        </select><br>
+                                        </select>
+                                    </div>
 
+                                    <div class="form-group">
                                         <label for="building_type">Building Type:</label>
                                         <select class="form-control" id="building_type" name="building_type" required>
                                             <option value="gymnasium">Gymnasium</option>
@@ -79,163 +159,123 @@
                                             <option value="administrative_office">Administrative Office</option>
                                             <option value="library">Library</option>
                                             <option value="recreation_center">Recreation Center</option>
-                                        </select><br>
-                                        <label for="last_renovation_date">Last Renovation Date:</label>
-                                        <input type="date" class="form-control" id="last_renovation_date" name="last_renovation_date"><br>
+                                        </select>
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label for="last_renovation_date">Last Renovation Date:</label>
+                                        <input type="date" class="form-control" id="last_renovation_date" name="last_renovation_date">
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="status">Building Status:</label>
                                         <select class="form-control" id="status" name="status" required>
                                             <option value="Operational">Operational</option>
                                             <option value="Under Renovation">Under Renovation</option>
                                             <option value="Inactive">Inactive</option>
-                                        </select><br>
+                                        </select>
                                     </div>
-                                    <div class="col-md-4">
-                                                                                <div class="text-center">
-                                            <h5 class="card p-2 border-black">MAINTENANCE</h5>
-                                        </div><br>
-                                        <label for="maintenance_type">Type of Maintenance Request</label>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Painting" id="painting" name="maintenance_type[]">
-                                            <label class="form-check-label" for="painting">Painting</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Electrical" id="Electrical" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Electrical">Electrical</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="HVAC" id="HVAC" name="maintenance_type[]">
-                                            <label class="form-check-label" for="HVAC">HVAC (Heating, Ventilation, and Air Conditioning)</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="General Repairs" id="General Repairs" name="maintenance_type[]">
-                                            <label class="form-check-label" for="General Repairs">General Repairs</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Plumbing" id="Plumbing" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Plumbing">Plumbing</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Roofing" id="Roofing" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Roofing">Roofing</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Flooring" id="Flooring" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Flooring">Flooring</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Cleaning" id="Cleaning" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Cleaning">Cleaning</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Landscaping" id="Landscaping" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Landscaping">Landscaping</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Fire Safety Equipment Maintenance" id="Fire Safety Equipment Maintenance" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Fire Safety Equipment Maintenance">Fire Safety Equipment Maintenance</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Security Systems Maintenance" id="Security Systems Maintenance" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Security Systems Maintenance">Security Systems Maintenance</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Pest Control" id="Pest Control" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Pest Control">Pest Control</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Gym Equipment Repair" id="Gym Equipment Repair" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Gym Equipment Repair">Gym Equipment Repair</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Lighting Maintenance" id="Lighting Maintenance" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Lighting Maintenance">Lighting Maintenance</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Furniture Repairs/Replacements" id="Furniture Repairs/Replacements" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Furniture Repairs/Replacements">Furniture Repairs/Replacements</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Windows and Doors Maintenance" id="Windows and Doors Maintenance" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Windows and Doors Maintenance">Windows and Doors Maintenance</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="HVAC Filter Replacement" id="HVAC Filter Replacement" name="maintenance_type[]">
-                                            <label class="form-check-label" for="HVAC Filter Replacement">HVAC Filter Replacement</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="Electrical System Inspection" id="Electrical System Inspection" name="maintenance_type[]">
-                                            <label class="form-check-label" for="Electrical System Inspection">Electrical System Inspection</label>
-                                        </div>
+                                </div>
 
-                                        <script>
-                                            document.getElementById('maintenanceForm').addEventListener('submit', function(event) {
-                                                const checkboxes = document.querySelectorAll('input[name="maintenance_type[]"]');
-                                                let checkedOne = Array.prototype.slice.call(checkboxes).some(x => x.checked);
+                                <!-- Maintenance Column -->
+                                <div class="col-md-4">
+                                    <div class="section-header">
+                                        <i class="fas fa-tools mr-2"></i> MAINTENANCE DETAILS
+                                    </div>
 
-                                                if (!checkedOne) {
-                                                    event.preventDefault();
-                                                    alert('Please select at least one type of maintenance request.');
-                                                }
-                                            });
-                                        </script>
+                                    <div class="form-group">
+                                        <label>Type of Maintenance Request:</label>
+                                        <div class="checkbox-group">
+                                            @foreach([
+                                                'Painting', 'Electrical', 'HVAC', 'General Repairs',
+                                                'Plumbing', 'Roofing', 'Flooring', 'Cleaning',
+                                                'Landscaping', 'Fire Safety Equipment Maintenance',
+                                                'Security Systems Maintenance', 'Pest Control',
+                                                'Gym Equipment Repair', 'Lighting Maintenance',
+                                                'Furniture Repairs/Replacements', 'Windows and Doors Maintenance',
+                                                'HVAC Filter Replacement', 'Electrical System Inspection'
+                                            ] as $type)
+                                            <div class="checkbox-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="{{ $type }}" id="{{ str_replace(' ', '_', $type) }}" name="maintenance_type[]">
+                                                    <label class="form-check-label" for="{{ str_replace(' ', '_', $type) }}">{{ $type }}</label>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
 
+                                    <div class="form-group">
                                         <label for="issue_description">Description of the Issue:</label>
-                                        <textarea class="form-control" id="issue_description" name="issue_description" rows="5" required></textarea><br>
+                                        <textarea class="form-control" id="issue_description" name="issue_description" rows="5" required></textarea>
+                                    </div>
 
+                                    <div class="form-group">
                                         <label for="priority">Priority Level:</label>
                                         <select class="form-control" id="priority" name="priority" required>
                                             <option value="low">Low</option>
                                             <option value="medium">Medium</option>
                                             <option value="high">High</option>
                                             <option value="urgent">Urgent</option>
-                                        </select><br>
+                                        </select>
+                                    </div>
 
+                                    <div class="form-group">
                                         <label for="attachments">Attachments:</label>
                                         <input type="file" class="form-control-file" id="attachments" name="attachments[]" multiple required>
                                     </div>
+                                </div>
 
-                                    <div class="col-md-4">
-                                        <div class="text-center">
-                                            <h5 class="card p-2 border-black">CONTACT INFORMATION</h5>
-                                        </div>
-                                        <br>
+                                <!-- Contact Information Column -->
+                                <div class="col-md-4">
+                                    <div class="section-header">
+                                        <i class="fas fa-user mr-2"></i> CONTACT INFORMATION
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="submitter_name">Name:</label>
-                                        <input type="text" class="form-control" id="submitter_name" name="submitter_name" placeholder="Enter your name" required><br>
+                                        <input type="text" class="form-control" id="submitter_name" name="submitter_name" placeholder="Enter your name" required>
+                                    </div>
 
+                                    <div class="form-group">
                                         <label for="submitter_email">Email Address:</label>
-                                        <input type="email" class="form-control" id="submitter_email" name="submitter_email" placeholder="Enter your email" required><br>
+                                        <input type="email" class="form-control" id="submitter_email" name="submitter_email" placeholder="Enter your email" required>
+                                    </div>
 
+                                    <div class="form-group">
                                         <label for="submitter_phone">Phone Number:</label>
-                                        <input type="tel" class="form-control" id="submitter_phone" name="submitter_phone" placeholder="Enter your phone number" required><br>
+                                        <input type="tel" class="form-control" id="submitter_phone" name="submitter_phone" placeholder="Enter your phone number" required>
+                                    </div>
 
+                                    <div class="form-group">
                                         <label for="submittion_date">Submission Date:</label>
                                         <input type="date" class="form-control" id="submittion_date" name="submittion_date" required value="{{ date('Y-m-d') }}" readonly>
                                     </div>
                                 </div>
-
-                                <div class="box-footer" style="display: flex; justify-content: flex-end;">
-                                    <div class="text-center mt-3" style="width: 100%;">
-                                        <input type="submit" class="btn btn-primary" value="Submit" style="float: right;">
-                                    </div>
-                                </div>
                             </div>
-                        </div>
-                    </form>
 
-                    <script>
-                        document.getElementById('maintenanceForm').addEventListener('submit', function(event) {
-                            const checkboxes = document.querySelectorAll('input[name="maintenance_type[]"]');
-                            let checkedOne = Array.prototype.slice.call(checkboxes).some(x => x.checked);
-
-                            if (!checkedOne) {
-                                event.preventDefault();
-                                alert('Please select at least one type of maintenance request.');
-                            }
-                        });
-                    </script>
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-submit">
+                                    <i class="fas fa-paper-plane mr-2"></i> Submit Request
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Keep your existing scripts -->
+    <script>
+        document.getElementById('maintenanceForm').addEventListener('submit', function(event) {
+            const checkboxes = document.querySelectorAll('input[name="maintenance_type[]"]');
+            let checkedOne = Array.prototype.slice.call(checkboxes).some(x => x.checked);
+
+            if (!checkedOne) {
+                event.preventDefault();
+                alert('Please select at least one type of maintenance request.');
+            }
+        });
+    </script>
 @endsection

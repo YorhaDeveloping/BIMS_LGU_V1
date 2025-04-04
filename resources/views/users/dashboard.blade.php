@@ -79,7 +79,7 @@
                         @endphp
                         <div class="row">
                             <div class="col-xl-3 col-md-6 mb-4">
-                                <a href="{{ route('admin.building.index') }}" style="text-decoration: none;">
+                                {{-- <a href="{{ route('admin.building.index') }}" style="text-decoration: none;"> --}}
                                     <div class="card text-center" style="transition: all 0.3s ease-in-out;">
                                         <div class="card-header bg-success text-white">
                                             <div class="row align-items-center">
@@ -97,7 +97,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </a>
+                                {{-- </a> --}}
                                 <style>
                                     .card:hover {
                                         transform: scale(1.1);
@@ -107,7 +107,7 @@
                             </div>
 
                             <div class="col-xl-3 col-md-6 mb-4">
-                                <a href="{{ route('admin.maintenance.index') }}" style="text-decoration: none;">
+                                <a href="{{ route('users.maintenance.index') }}" style="text-decoration: none;">
                                     <div class="card text-center" style="transition: all 0.3s ease-in-out;">
                                         <div class="card-header bg-danger text-white">
                                             <div class="row align-items-center">
@@ -137,104 +137,6 @@
 
                         <div class="container-fluid">
                             <div class="row">
-                                <!-- Column for Chart -->
-                                {{-- <div class="container-fluid">
-                                    <div class="row">
-                                        <!-- Column for Maintenance Status Pie Chart -->
-
-                                        <div class="col-sm-6">
-                                            <div class="programming-stats">
-                                                <div class="chart-container">
-                                                    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-                                                </div>
-                                            </div>
-
-                                            @php
-                                                // Count occurrences of each status
-                                                $maintenanceStatuses = \App\Models\Admin\Maintenance::pluck('status');
-                                                $statusCounts = [
-                                                    'Operational' => $maintenanceStatuses
-                                                        ->filter(fn($status) => $status === 'Operational')
-                                                        ->count(),
-                                                    'Under Renovation' => $maintenanceStatuses
-                                                        ->filter(fn($status) => $status === 'Under Renovation')
-                                                        ->count(),
-                                                    'Inactive' => $maintenanceStatuses
-                                                        ->filter(fn($status) => $status === 'Inactive')
-                                                        ->count(),
-                                                ];
-
-                                                // Format data points for CanvasJS
-                                                $statusDataPoints = collect($statusCounts)
-                                                    ->map(function ($count, $status) {
-                                                        return ['label' => $status, 'y' => $count];
-                                                    })
-                                                    ->values()
-                                                    ->all();
-                                            @endphp
-
-                                            <script>
-                                                window.onload = function() {
-                                                    // Render the maintenance status pie chart
-                                                    const chart = new CanvasJS.Chart("chartContainer", {
-                                                        animationEnabled: true,
-                                                        theme: "light2",
-                                                        title: {
-                                                            text: "Building Maintenance Status"
-                                                        },
-                                                        data: [{
-                                                            type: "pie",
-                                                            showInLegend: true,
-                                                            legendText: "{label}",
-                                                            toolTipContent: "<b>{label}</b>: {y} (#percent%)",
-                                                            indexLabel: "{label} - {y}",
-                                                            dataPoints: @json($statusDataPoints)
-                                                        }]
-                                                    });
-                                                    chart.render();
-
-                                                    // Fetch the count of total buildings from PHP
-                                                    const totalBuildingsCount = @json(
-                                                        \App\Models\Admin\Building::all()->pluck('created_at')->map(function ($date) {
-                                                                return \Carbon\Carbon::parse($date)->format('Y');
-                                                            })->countBy()->all());
-                                                    console.log(totalBuildingsCount); // Check if totalBuildingsCount is valid
-
-                                                    // Render the total buildings added per year line graph
-                                                    const totalBuildingsChart = new CanvasJS.Chart("totalBuildingsLineGraph", {
-                                                        animationEnabled: true,
-                                                        theme: "light2",
-                                                        title: {
-                                                            text: "Total Buildings Yearly"
-                                                        },
-                                                        axisY: {
-                                                            interval: 1, // Ensure y-axis values are whole numbers
-                                                            labelFormatter: function(e) {
-                                                                return e.value.toFixed(0); // Format y-axis values as whole numbers
-                                                            }
-                                                        },
-                                                        data: [{
-                                                            type: "line",
-                                                            dataPoints: Object.keys(totalBuildingsCount).map(year => ({
-                                                                label: year,
-                                                                y: totalBuildingsCount[year]
-                                                            }))
-                                                        }]
-                                                    });
-                                                    totalBuildingsChart.render();
-                                                }
-                                            </script>
-                                        </div>
-
-                                        <!-- Column for Total Buildings Chart -->
-                                        <div class="col-sm-6">
-                                            <div class="chart-container">
-                                                <div id="totalBuildingsLineGraph" style="height: 300px; width: 100%;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
-
                                 <!-- Column for Map -->
                                 <div class="col-sm-6">
                                     <div class="chart-container" style="height: 300px; width: 100%; border: 1px solid #ddd;">
